@@ -1,4 +1,5 @@
 
+import 'package:ctsefinalapp/services/authentication.dart';
 import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:flutter/material.dart';
 import 'SignUp.dart';
@@ -7,14 +8,20 @@ import 'Lecture.dart';
 
 
 class homePage extends StatelessWidget {
+
   homePage({Key key}) : super(key: key);
+
   double width;
+
+
+  final AuthenticationService _auth = AuthenticationService();
 
   Widget HeaderDesign(BuildContext context) {
     var width = MediaQuery
         .of(context)
         .size
         .width;
+    
     return ClipRRect(
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
@@ -36,8 +43,27 @@ class homePage extends StatelessWidget {
               Positioned(
                   top: -100,
                   left: -45,
-                  child: _headerCircleDesign(width * .5, LightColor.darkpurple)
-              ),
+                  child: _headerCircleDesign(width * .5, LightColor.darkpurple)),
+              Positioned(
+                  top: 50,
+                  left: 0,
+                  child: Container(
+                      width: width,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Stack(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: FlatButton.icon(
+                              icon: Icon(Icons.person),
+                              label: Text('Logout'),
+                              onPressed: () async {
+                                await _auth.signOut();
+                              },
+                            ),
+                          ),
+                        ],
+                      ))),
 
               Positioned(
                   top: 40,
