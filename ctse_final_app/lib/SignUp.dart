@@ -1,15 +1,31 @@
+import 'package:ctsefinalapp/services/authentication.dart';
 import 'package:flutter/material.dart';
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+
+  final AuthenticationService _auth = AuthenticationService();
+  final _key = GlobalKey<FormState>();
+
+  String fullName = '';
+  String email = '';
+  String password = '';
+  String confPassword ='';
+  String error = '';
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('Assets/bg13.jpg'),
-            fit: BoxFit.fitHeight,
-          )
-      ),
+//      decoration: BoxDecoration(
+//          image: DecorationImage(
+//            image: AssetImage('Assets/bg13.jpg'),
+//            fit: BoxFit.fitHeight,
+//          )
+//      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
 
@@ -25,6 +41,7 @@ class SignUp extends StatelessWidget {
               children: <Widget>[
                 SizedBox(height: 140,),
                 Form(
+                  key: _key,
                   child: Column(
                     children: <Widget>[
                       Padding(
@@ -33,6 +50,10 @@ class SignUp extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                           ),
+                          validator: (value) => value.isEmpty ? 'Enter Fullname' : null,
+                          onChanged: (value){
+                            setState(() => fullName = value );
+                          },
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -52,6 +73,10 @@ class SignUp extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                           ),
+                          validator: (value) => value.isEmpty ? 'Enter E-mail' : null,
+                          onChanged: (value){
+                            setState(() => email = value );
+                          },
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -69,9 +94,14 @@ class SignUp extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
                         child: TextFormField(
+                          obscureText: true,
                           style: TextStyle(
                             color: Colors.white,
                           ),
+                          validator: (value) => value.length < 6 ? 'Enter Password with min 6 characters' : null,
+                          onChanged: (value){
+                            setState(() => password = value );
+                          },
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -88,9 +118,14 @@ class SignUp extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
                         child: TextFormField(
+                          obscureText: true,
                           style: TextStyle(
                             color: Colors.white,
                           ),
+                          validator: (value) => value != password ? 'Passwords do not match' : null,
+                          onChanged: (value){
+                            setState(() => confPassword = value );
+                          },
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -111,7 +146,18 @@ class SignUp extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 40),
                   child: MaterialButton(
-                    onPressed: (){},
+                    onPressed: () async {
+                      if(_key.currentState.validate()){
+                        dynamic result = await _auth.signUp(fullName, email, password);
+                        if( result == null){
+                          setState(() => error = 'Please supply valid credentials');
+                        }
+//                        Navigator.push(
+//                        context,
+//                        MaterialPageRoute(builder: (context) => BottomNavPage()),
+//                      );
+                      }
+                      },
                     child: Text('SIGN UP',
                       style: TextStyle(
                           fontSize: 15,
@@ -129,7 +175,14 @@ class SignUp extends StatelessWidget {
                     ),
                   ),
                 ),
-
+                SizedBox(height: 12.0),
+                Align(
+                  alignment: Alignment.center,
+                  child:Text(
+                    error,
+                    style: TextStyle(color: Colors.red, fontSize: 16.0),
+                  ),
+                )
               ],
             ),
           ),
