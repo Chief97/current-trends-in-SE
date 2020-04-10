@@ -4,11 +4,10 @@ import 'courseModel.dart';
 
 
 class Lecture extends StatelessWidget {
-  Lecture({Key key}) : super(key: key);
+  Lecture({Key key}) : super(key: key);double width;
 
-  double width;
-
-  Widget _header(BuildContext context) {
+  /* Header Design*/
+  Widget HeaderDesign(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -26,16 +25,15 @@ class Lecture extends StatelessWidget {
               Positioned(
                   top: 10,
                   right: -120,
-                  child: _circularContainer(100, LightColor.lightOrange2)),
+                  child: HeaderCircleDesigner(100, LightColor.lightOrange2)),
               Positioned(
                   top: -60,
                   left: -65,
-                  child: _circularContainer(width * .5, LightColor.darkOrange)),
+                  child: HeaderCircleDesigner(width * .5, LightColor.darkOrange)),
               Positioned(
                   top: -230,
                   right: -30,
-                  child: _circularContainer(width * .7, Colors.transparent,
-                      borderColor: Colors.white38)),
+                  child: HeaderCircleDesigner(width * .7, Colors.transparent, borderColor: Colors.white38)),
               Positioned(
                   top: 50,
                   left: 0,
@@ -65,7 +63,8 @@ class Lecture extends StatelessWidget {
     );
   }
 
-  Widget _circularContainer(double height, Color color,
+  /*Header Circle Design*/
+  Widget HeaderCircleDesigner(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
       height: height,
@@ -80,7 +79,7 @@ class Lecture extends StatelessWidget {
 
 
 
-  Widget _categoryRow(String title) {
+  Widget Rows(String title) {
     return Container(
       // margin: EdgeInsets.symmetric(horizontal: 20),
       height: 68,
@@ -114,39 +113,39 @@ class Lecture extends StatelessWidget {
     );
   }
 
-  Widget _courseList() {
+/* Define the Course by List*/
+  Widget CourseListDetails() {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            _courseInfo(CourseList.list[0],
-                _decorationContainerA(Colors.redAccent, -110, -85)),
+            CourseInfomation(CourseList.list[0]),
             Divider(
               thickness: 1,
               endIndent: 20,
               indent: 20,
             ),
-            _courseInfo(CourseList.list[1], _decorationContainerB()),
+            CourseInfomation(CourseList.list[1]),
             Divider(
               thickness: 1,
               endIndent: 20,
               indent: 20,
             ),
-            _courseInfo(CourseList.list[2], _decorationContainerC()),
+            CourseInfomation(CourseList.list[2]),
             Divider(
               thickness: 1,
               endIndent: 20,
               indent: 20,
             ),
-            _courseInfo(CourseList.list[3], _decorationContainerB()),
+            CourseInfomation(CourseList.list[3]),
             Divider(
               thickness: 1,
               endIndent: 20,
               indent: 20,
             ),
-            _courseInfo(CourseList.list[4], _decorationContainerB()),
+            CourseInfomation(CourseList.list[4]),
           ],
         ),
       ),
@@ -154,7 +153,7 @@ class Lecture extends StatelessWidget {
   }
   
 
-  Widget _courseInfo(CourseModel model, Widget decoration) {
+  Widget CourseInfomation(CourseModel model) {
     return Container(
         height: 170,
         width: width - 20,
@@ -194,83 +193,6 @@ class Lecture extends StatelessWidget {
         ));
   }
 
-  Widget _decorationContainerA(Color primaryColor, double top, double left) {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: top,
-          left: left,
-          child: CircleAvatar(
-            radius: 100,
-            backgroundColor: LightColor.darkseeBlue,
-          ),
-        ),
-        Positioned(
-          top: -30,
-          right: -10,
-        ),
-        Positioned(
-          top: 110,
-          right: -50,
-          child: CircleAvatar(
-            radius: 60,
-            backgroundColor: LightColor.darkseeBlue,
-            child:
-            CircleAvatar(radius: 40, backgroundColor: LightColor.seeBlue),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _decorationContainerB() {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: -55,
-          left: -65,
-          child: CircleAvatar(
-            radius: 70,
-            backgroundColor: LightColor.lightOrange2,
-            child: CircleAvatar(
-                radius: 30, backgroundColor: LightColor.darkOrange),
-          ),
-        ),
-        Positioned(
-            bottom: -35,
-            right: -40,
-            child:
-            CircleAvatar(backgroundColor: LightColor.yellow, radius: 40)),
-        Positioned(
-          top: 50,
-          left: -40,
-        ),
-      ],
-    );
-  }
-
-  Widget _decorationContainerC() {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          bottom: -65,
-          left: -35,
-          child: CircleAvatar(
-            radius: 70,
-            backgroundColor: Color(0xfffeeaea),
-          ),
-        ),
-        Positioned(
-            bottom: -30,
-            right: -25,
-            child: ClipRect(
-                child: CircleAvatar(
-                    backgroundColor: LightColor.yellow, radius: 40))),
-
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -279,10 +201,10 @@ class Lecture extends StatelessWidget {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  _header(context),
+                  HeaderDesign(context),
                   SizedBox(height: 20),
-                  _categoryRow(""),
-                  _courseList()
+                  Rows(""),
+                  CourseListDetails()
                 ],
               ),
             )));

@@ -9,7 +9,7 @@ class notification extends StatelessWidget {
 
   double width;
 
-  Widget _header(BuildContext context) {
+  Widget HeaderDesign(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -79,7 +79,7 @@ class notification extends StatelessWidget {
     );
   }
 
-  Widget _categoryRow(String title) {
+  Widget Rows(String title) {
     return Container(
       // margin: EdgeInsets.symmetric(horizontal: 20),
       height: 68,
@@ -114,87 +114,6 @@ class notification extends StatelessWidget {
   }
 
 
-
-
-
-
-  Widget _decorationContainerA(Color primaryColor, double top, double left) {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: top,
-          left: left,
-          child: CircleAvatar(
-            radius: 100,
-            backgroundColor: LightColor.darkseeBlue,
-          ),
-        ),
-        Positioned(
-          top: -30,
-          right: -10,
-        ),
-        Positioned(
-          top: 110,
-          right: -50,
-          child: CircleAvatar(
-            radius: 60,
-            backgroundColor: LightColor.darkseeBlue,
-            child:
-            CircleAvatar(radius: 40, backgroundColor: LightColor.seeBlue),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _decorationContainerB() {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: -55,
-          left: -65,
-          child: CircleAvatar(
-            radius: 70,
-            backgroundColor: LightColor.lightOrange2,
-            child: CircleAvatar(
-                radius: 30, backgroundColor: LightColor.darkOrange),
-          ),
-        ),
-        Positioned(
-            bottom: -35,
-            right: -40,
-            child:
-            CircleAvatar(backgroundColor: LightColor.yellow, radius: 40)),
-        Positioned(
-          top: 50,
-          left: -40,
-        ),
-      ],
-    );
-  }
-
-  Widget _decorationContainerC() {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          bottom: -65,
-          left: -35,
-          child: CircleAvatar(
-            radius: 70,
-            backgroundColor: Color(0xfffeeaea),
-          ),
-        ),
-        Positioned(
-            bottom: -30,
-            right: -25,
-            child: ClipRect(
-                child: CircleAvatar(
-                    backgroundColor: LightColor.yellow, radius: 40))),
-
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -203,9 +122,9 @@ class notification extends StatelessWidget {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  _header(context),
+                  HeaderDesign(context),
                   SizedBox(height: 20),
-                  _categoryRow(""),
+                  Rows(""),
                   //_courseList()
                 ],
               ),

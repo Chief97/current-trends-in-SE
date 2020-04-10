@@ -13,10 +13,15 @@ class homePage extends StatelessWidget {
 
   double width;
 
+
   final AuthenticationService _auth = AuthenticationService();
 
-  Widget _header(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
+  Widget HeaderDesign(BuildContext context) {
+    var width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    
     return ClipRRect(
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
@@ -33,11 +38,12 @@ class homePage extends StatelessWidget {
               Positioned(
                   top: 30,
                   right: -100,
-                  child: _circleContainer(300, LightColor.lightpurple)),
+                  child: _headerCircleDesign(300, LightColor.lightpurple)
+              ),
               Positioned(
                   top: -100,
                   left: -45,
-                  child: _circleContainer(width * .5, LightColor.darkpurple)),
+                  child: _headerCircleDesign(width * .5, LightColor.darkpurple)),
               Positioned(
                   top: 50,
                   left: 0,
@@ -72,7 +78,6 @@ class homePage extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-
                             ],
                           ),
                           SizedBox(height: 50),
@@ -86,11 +91,13 @@ class homePage extends StatelessWidget {
                         ],
                       )))
             ],
-          )),
+          )
+      ),
     );
   }
 
-  Widget _circleContainer(double height, Color color,
+  //This is for Header Circle Design Function
+  Widget _headerCircleDesign(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
       height: height,
@@ -103,11 +110,11 @@ class homePage extends StatelessWidget {
     );
   }
 
-  Widget _Row(
-      String title,
+
+//Design The Rows
+  Widget Rows(String title,
       Color primary,
-      Color textColor,
-      ) {
+      Color textColor,) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       height: 30,
@@ -117,15 +124,19 @@ class homePage extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-                color: LightColor.lightpurple, fontSize:20,fontWeight: FontWeight.bold),
+                color: LightColor.lightpurple,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+            ),
           ),
-
         ],
       ),
     );
   }
 
-  Widget _featuresOfRowA() {
+
+  //This is indicate the first row which contains Lecturer,Lab in charge Details
+  Widget FirstRow() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Container(
@@ -134,26 +145,25 @@ class homePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
 
-            _card(
-                primary: LightColor.lightOrange,
-                chipColor: LightColor.lightOrange,
-                backWidget: _decorationContainerC(Colors.greenAccent, 50, 20),
-                chipText1: "Lecturer in charge ",
-                chipText2: "Email id : dilani.l@sliit.lk",
-                chiptext3: " Dilani Lunugalage",
+            card(
+                primarycolor: LightColor.lightOrange,
+                emailchipColor: LightColor.lightOrange,
+                backWidget: decorationOfLectureCard(Colors.greenAccent, 50, 20),
+                textOne: "Lecturer in charge ",
+                LecturerName: "Email id : dilani.l@sliit.lk",
+                EmailId: " Dilani Lunugalage",
                 isPrimaryCard: true,
-                imgPath:
+                imagepath:
                 "https://www.sliit.lk/profile/uploads/48087608_320634925441990_5844369803069882368_n.jpg"),
-            _card(
-                primary: Colors.lightBlueAccent,
-                chipColor: LightColor.darkBlue,
-                backWidget: _decorationContainerA(Colors.blueAccent, 50, -30),
-                chipText1: "Lab In Charge ",
-                chipText2: "Email id :thilini.b@sliit.lk",
-                chiptext3: " Buddika Jayasinghe",
+            card(
+                primarycolor: LightColor.lightOrange2,
+                emailchipColor: LightColor.lightOrange2,
+                backWidget: decorationOfLectureCard(Colors.yellow, 50, 00),
+                textOne: "Lab In Charge ",
+                LecturerName: "Email id :thilini.b@sliit.lk",
+                EmailId: " Buddika Jayasinghe",
                 isPrimaryCard: true,
-                imgPath:
-                "https://cdn3.iconfinder.com/data/icons/school-glyph/512/Girl_hipster_lady_woman_teacher-512.png"),
+                imagepath: "https://cdn3.iconfinder.com/data/icons/school-glyph/512/Girl_hipster_lady_woman_teacher-512.png"),
 
           ],
         ),
@@ -161,7 +171,8 @@ class homePage extends StatelessWidget {
     );
   }
 
-  Widget _featureOfRowB() {
+  //This is indicate the Second row which contains Course Details
+  Widget SecondRow() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Container(
@@ -169,92 +180,88 @@ class homePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            _card(
-                primary: LightColor.seeBlue,
-                chipColor: LightColor.seeBlue,
-                backWidget: _decorationContainerA(
+            card(
+                primarycolor: LightColor.seeBlue,
+                emailchipColor: LightColor.seeBlue,
+                backWidget: decorationOfCourseCard(
                   Colors.white,
                   -50,
                   30,
                 ),
-                chipText1: "   Machine Learing ",
-                chipText2: "",
-                imgPath:
-                "https://legalworld.wolterskluwer.be/media/5311/alex-knight-199368.jpg?mode=pad&width=800&height=1200"),
-            _card(
-                primary: LightColor.seeBlue,
-                chipColor: LightColor.seeBlue,
-                backWidget: _decorationContainerA(
+                imagepath:
+                "https://legalworld.wolterskluwer.be/media/5311/alex-knight-199368.jpg?mode=pad&width=800&height=1200",
+                CourseName: " Machine Learning "
+            ),
+            card(
+                primarycolor: LightColor.seeBlue,
+                emailchipColor: LightColor.seeBlue,
+                backWidget: decorationOfCourseCard(
                   Colors.white,
                   -50,
                   30,
+                ),
+                imagepath: "https://cdn-images-1.medium.com/max/1200/1*5-aoK8IBmXve5whBQM90GA.png",
+                CourseName: " Flutter "
+            ),
 
-                ),
-                chipText1: "Flutter",
-                chipText2: "",
-                imgPath:
-                "https://cdn-images-1.medium.com/max/1200/1*5-aoK8IBmXve5whBQM90GA.png"),
-            _card(
-                primary: LightColor.seeBlue,
-                chipColor: LightColor.seeBlue,
-                backWidget: _decorationContainerA(
-                  Colors.white,
-                  -50,
-                  30,
-                ),
-                chipText1: "Microservices",
-                chipText2: "",
-                imgPath:
-                "https://pokalablog.files.wordpress.com/2016/09/microservices.jpg?w=772"),
-            _card(
-                primary: LightColor.seeBlue,
-                chipColor: LightColor.seeBlue,
-                backWidget: _decorationContainerA(
-                  Colors.white,
-                  -50,
-                  30,
-                ),
-                chipText1: "Docker",
-                chipText2: "",
-                imgPath: "https://cdn-images-1.medium.com/max/1600/1*9hGvYE5jegHm1r_97gH-jQ.png"),
+            card(
+              primarycolor: LightColor.seeBlue,
+              emailchipColor: LightColor.seeBlue,
+              backWidget: decorationOfCourseCard(
+                Colors.white,
+                -50,
+                30,
+              ),
+              imagepath: "https://pokalablog.files.wordpress.com/2016/09/microservices.jpg?w=772",
+              CourseName: "MicroServices",
+            ),
+            card(
+              primarycolor: LightColor.seeBlue,
+              emailchipColor: LightColor.seeBlue,
+              backWidget: decorationOfCourseCard(
+                Colors.white,
+                -50,
+                30,
+              ),
+              imagepath: "https://cdn-images-1.medium.com/max/1600/1*9hGvYE5jegHm1r_97gH-jQ.png",
+              CourseName: "Docker",
+            ),
 
-            _card(
-                primary: LightColor.seeBlue,
-                chipColor: LightColor.seeBlue,
-                backWidget: _decorationContainerA(
-                  Colors.white,
-                  -50,
-                  30,
-                ),
-                chipText1: "     Program Languages",
-                chipText2: "",
-                imgPath:
-                "https://www.itstarterseries.com/wp-content/uploads/2018/04/best-programming-language-to-learn.jpg"),
+            card(
+              primarycolor: LightColor.seeBlue,
+              emailchipColor: LightColor.seeBlue,
+              backWidget: decorationOfCourseCard(
+                Colors.white,
+                -50,
+                30,
+              ),
+              imagepath: "https://www.itstarterseries.com/wp-content/uploads/2018/04/best-programming-language-to-learn.jpg",
+              CourseName: "Prog. Languages",
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _card(
-      {Color primary = Colors.redAccent,
-        String imgPath,
-        String chipText1 = '',
-        String chipText2 = '',
-        String chiptext3='',
-        String chiptext4='',
-        String chiptext5='',
-
-        Widget backWidget,
-        Color chipColor = LightColor.orange,
-        bool isPrimaryCard = false}) {
+  /* Card Function : Each box in the page : Lecture,Lab, Machine learning,etc */
+  Widget card({Color primarycolor = Colors.purple,
+    String imagepath,
+    String textOne = '',
+    String EmailId = '',
+    String LecturerName = '',
+    String CourseName = '',
+    Widget backWidget,
+    Color emailchipColor = LightColor.orange,
+    bool isPrimaryCard = false}) {
     return Container(
-        height: isPrimaryCard ? 230 : 120,
+      /* Set Here Cards Alignment:height  */
+        height: isPrimaryCard ? 230 : 180,
         width: isPrimaryCard ? width * .50 : width * .40,
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         decoration: BoxDecoration(
-            color: primary.withAlpha(200),
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: primarycolor.withAlpha(200),
+            borderRadius: BorderRadius.all(Radius.circular(30)),
             boxShadow: <BoxShadow>[
               BoxShadow(
                   offset: Offset(0, 5),
@@ -268,17 +275,18 @@ class homePage extends StatelessWidget {
               children: <Widget>[
                 backWidget,
                 Positioned(
-                    top: 20,
-                    left: 10,
+                    top: 40,
+                    left: 40,
+                    /* Set Here the Circle Image Size */
                     child: CircleAvatar(
-                      backgroundColor: Colors.grey.shade300,
-                      backgroundImage: NetworkImage(imgPath),
+                      radius: 40,
+                      backgroundImage: NetworkImage(imagepath),
                     )),
                 Positioned(
                   bottom: 10,
                   left: 10,
-                  child: _cardInfo(chipText1, chipText2,chiptext3,
-                      LightColor.titleTextColor, chipColor,
+                  child: _detailsOfCard(textOne, LecturerName, EmailId,
+                      LightColor.titleTextColor, emailchipColor, CourseName,
                       isPrimaryCard: isPrimaryCard),
                 )
               ],
@@ -287,21 +295,25 @@ class homePage extends StatelessWidget {
         ));
   }
 
-  Widget _cardInfo(String title, String courses,String email,  Color textColor, Color primary,
+
+/* This function indicates the Card Details */
+  Widget _detailsOfCard(String textOne, String emailId, String LecturerName,
+      Color textColor, Color primary, String CourseName,
       {bool isPrimaryCard = false}) {
     return Align(
-      alignment: Alignment.bottomLeft,
+      alignment: Alignment.centerLeft,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(right:60),
-            width: width * .60,
-            alignment: Alignment.topCenter,
+            padding: EdgeInsets.only(left: 5),
+            width: width * .45,
+            alignment: Alignment.center,
             child: Text(
-              title,
+              textOne,
               style: TextStyle(
-                  fontSize: 10,
+                  height: -60,
+                  fontSize: 13,
                   fontWeight: FontWeight.bold,
                   color: isPrimaryCard ? Colors.yellow : textColor),
             ),
@@ -309,37 +321,52 @@ class homePage extends StatelessWidget {
 
           ),
           Container(
-            padding: EdgeInsets.only(top:7),
+            padding: EdgeInsets.only(top: 7),
             width: width * .50,
             height: 20,
             alignment: Alignment.topCenter,
             child: Text(
-              email,
+              LecturerName,
               style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 13,
                   fontWeight: FontWeight.bold,
                   color: isPrimaryCard ? Colors.white : textColor),
             ),
 
 
           ),
-          SizedBox(height: 15),
-          _setchip(courses, primary, height: 5, isPrimaryCard: isPrimaryCard),
+          SizedBox(height: 10),
+          _setEmailDesigner(
+              emailId, primary, height: 5, isPrimaryCard: isPrimaryCard), //
 
-
+          Container(
+            padding: EdgeInsets.only(top: 7),
+            width: width * .35,
+            height: 25,
+            alignment: Alignment.topCenter,
+            child: Text(
+              CourseName,
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: isPrimaryCard ? Colors.white : textColor),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _setchip(String text, Color textColor,
+  //This function for design EmailID property in the Lecturer,Lab Deatils
+  Widget _setEmailDesigner(String text, Color textColor,
       {double height = 10, bool isPrimaryCard = false}) {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: height),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: height),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(15)),
-        color: textColor.withAlpha(isPrimaryCard ? 250 : 50),
+        //Set Border as Circular
+        color: textColor.withAlpha(isPrimaryCard ? 250 : 50), //Highlight EmaiId
       ),
       child: Text(
         text,
@@ -349,7 +376,8 @@ class homePage extends StatelessWidget {
     );
   }
 
-  Widget _decorationContainerA(Color primary, double top, double left) {
+  /* This function used for decorate the CourseCard */
+  Widget decorationOfCourseCard(Color primary, double top, double left) {
     return Stack(
       children: <Widget>[
         Positioned(
@@ -360,31 +388,23 @@ class homePage extends StatelessWidget {
             backgroundColor: primary.withAlpha(255),
           ),
         ),
-
       ],
     );
   }
 
 
-
-  Widget _decorationContainerC(Color primary, double top, double left) {
+/* This function used for decorate the LecturerCard */
+  Widget decorationOfLectureCard(Color primary, double top, double left) {
     return Stack(
       children: <Widget>[
         Positioned(
-          top: -105,
-          left: -35,
+          top: -75,
+          left: -55,
           child: CircleAvatar(
-            radius: 70,
+            radius: 100,
             backgroundColor: LightColor.orange.withAlpha(100),
           ),
         ),
-        Positioned(
-            top: 35,
-            right: -40,
-            child: ClipRect(
-                child: CircleAvatar(
-                    backgroundColor: LightColor.orange, radius: 40))),
-
       ],
     );
   }
@@ -392,21 +412,25 @@ class homePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
+    width = MediaQuery
+        .of(context)
+        .size
+        .width;
     return Scaffold(
-
         body: SingleChildScrollView(
             child: Container(
               child: Column(
                 children: <Widget>[
-                  _header(context),
+                  HeaderDesign(context),
                   SizedBox(height: 20),
-                  _Row("Lecturer Details", LightColor.orange, LightColor.orange),
-                  _featuresOfRowA(),
-                  SizedBox(height: 0),
-                  _Row(
-                      "Course Details : Semester Contents", LightColor.purple, LightColor.darkpurple),
-                  _featureOfRowB()
+                  Rows(
+                      "Lecturer Details", LightColor.orange, LightColor.orange),
+                  FirstRow(),
+                  //SizedBox(height: 0),
+                  Rows(
+                      "Course Details : Semester Contents", LightColor.purple,
+                      LightColor.darkpurple),
+                  SecondRow()
                 ],
               ),
             )));
