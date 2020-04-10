@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-
-
 import 'package:ctsefinalapp/theme/color/light_color.dart';
-import 'package:flutter/material.dart';
-
 
 
 class user extends StatelessWidget {
@@ -12,7 +8,7 @@ class user extends StatelessWidget {
 
   double width;
 
-  Widget _header(BuildContext context) {
+  Widget HeaderDesign(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -30,11 +26,11 @@ class user extends StatelessWidget {
               Positioned(
                   top: 10,
                   right: -120,
-                  child: _circularContainer(250, LightColor.extraDarkPurple)),
+                  child: HeaderCircleDesigner(250, LightColor.extraDarkPurple)),
               Positioned(
                   top: -60,
                   left: -65,
-                  child: _circularContainer(width * .4, LightColor.extraDarkPurple)),
+                  child: HeaderCircleDesigner(width * .4, LightColor.extraDarkPurple)),
 //              Positioned(
 //                  top: -230,
 //                  right: -30,
@@ -69,7 +65,7 @@ class user extends StatelessWidget {
     );
   }
 
-  Widget _circularContainer(double height, Color color,
+  Widget HeaderCircleDesigner(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
       height: height,
@@ -82,7 +78,7 @@ class user extends StatelessWidget {
     );
   }
 
-  Widget _categoryRow(String title) {
+  Widget Rows(String title) {
     return Container(
       // margin: EdgeInsets.symmetric(horizontal: 20),
       height: 68,
@@ -125,9 +121,9 @@ class user extends StatelessWidget {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  _header(context),
+                  HeaderDesign(context),
                   SizedBox(height: 20),
-                  _categoryRow(""),
+                  Rows(""),
                 ],
               ),
             )));
