@@ -1,3 +1,4 @@
+import 'package:ctsefinalapp/BottomNavPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +23,7 @@ class Home extends StatelessWidget {
     }else{
       return Container(
         child: Scaffold(
-          body: homePage(),
+          body: BottomNavPage(),
         )
       );
     }
