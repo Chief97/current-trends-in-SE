@@ -1,5 +1,6 @@
 import 'package:ctsefinalapp/services/authentication.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -17,18 +18,23 @@ class _SignUpState extends State<SignUp> {
   String confPassword ='';
   String error = '';
 
+  //Toast Function Implementation
+  void showToast() {
+    Fluttertoast.showToast(
+        msg: 'Signup Successfully ',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 2,
+        backgroundColor: Colors.pinkAccent,
+        textColor: Colors.white
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-//      decoration: BoxDecoration(
-//          image: DecorationImage(
-//            image: AssetImage('Assets/bg13.jpg'),
-//            fit: BoxFit.fitHeight,
-//          )
-//      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-
         body: Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
@@ -36,14 +42,15 @@ class _SignUpState extends State<SignUp> {
             color: Colors.transparent,
           ),
           child: Padding(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(10),
             child: ListView(
               children: <Widget>[
-                SizedBox(height: 140,),
+                SizedBox(height: 5,),
                 Form(
                   key: _key,
                   child: Column(
                     children: <Widget>[
+                      HeaderDesign(context),
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
                         child: TextFormField(
@@ -74,8 +81,10 @@ class _SignUpState extends State<SignUp> {
                             color: Colors.white,
                           ),
                           validator: (value) => value.isEmpty ? 'Enter E-mail' : null,
+
                           onChanged: (value){
                             setState(() => email = value );
+                            print(value);
                           },
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -152,6 +161,9 @@ class _SignUpState extends State<SignUp> {
                         if( result == null){
                           setState(() => error = 'Please supply valid credentials');
                         }
+                        else{
+                          showToast();
+                        }
 //                        Navigator.push(
 //                        context,
 //                        MaterialPageRoute(builder: (context) => BottomNavPage()),
@@ -187,6 +199,73 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget HeaderDesign(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
+      child: Container(
+          height: 150,
+          width: width,
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+          ),
+          child: Stack(
+            fit: StackFit.expand,
+            alignment: Alignment.center,
+            children: <Widget>[
+
+              Positioned(
+                  top: 50,
+                  right: -150,
+                  child: HeaderCircleDesigner(250, Colors.pink)),
+              Positioned(
+                  top: -20,
+                  left: -65,
+                  child: HeaderCircleDesigner(width * .4, Colors.pinkAccent)),
+              Positioned(
+                  top: 50,
+                  left: 10,
+                  child: Container(
+                      width: width,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Stack(
+                        children: <Widget>[
+                          Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Sign up",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w500
+                                ),
+                              )
+                          )
+                        ],
+                      )
+                  )
+              ),
+
+            ],
+          )),
+    );
+  }
+
+
+  Widget HeaderCircleDesigner(double height, Color color,
+      {Color borderColor = Colors.transparent, double borderWidth = 2}) {
+    return Container(
+      height: height,
+      width: height,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
+        border: Border.all(color: borderColor, width: borderWidth),
       ),
     );
   }

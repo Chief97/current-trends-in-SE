@@ -1,11 +1,9 @@
 import 'package:ctsefinalapp/BottomNavPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'SignIn.dart';
-import 'homepage.dart';
 import 'models/userModel.dart';
-//import 'SignInTwo.dart';
+
 
 class Home extends StatelessWidget {
   @override
@@ -17,7 +15,6 @@ class Home extends StatelessWidget {
       return Container(
           child: Scaffold(
             body: login(),
-            //body: SignInTwo(),
           )
       );
     }else{

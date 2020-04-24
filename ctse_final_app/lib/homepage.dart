@@ -1,9 +1,8 @@
-
 import 'package:ctsefinalapp/services/authentication.dart';
 import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:flutter/material.dart';
-import 'SignUp.dart';
-import 'Lecture.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'Animation/Fade_Animation.dart';
 
 
 
@@ -59,6 +58,7 @@ class homePage extends StatelessWidget {
                               label: Text('Logout'),
                               onPressed: () async {
                                 await _auth.signOut();
+                                showToast();
                               },
                             ),
                           ),
@@ -409,6 +409,18 @@ class homePage extends StatelessWidget {
     );
   }
 
+  //Toast Function Implementation
+  void showToast() {
+    Fluttertoast.showToast(
+        msg: 'You are Logout ',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 2,
+        backgroundColor: Colors.redAccent,
+        textColor: Colors.white
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -418,7 +430,14 @@ class homePage extends StatelessWidget {
         .width;
     return Scaffold(
         body: SingleChildScrollView(
-            child: Container(
+            child: FadeAnimation(1, Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('Assets/white.jpg'),
+                      fit: BoxFit.fitHeight,
+                      alignment: Alignment.center
+                  )
+              ),
               child: Column(
                 children: <Widget>[
                   HeaderDesign(context),
@@ -433,6 +452,6 @@ class homePage extends StatelessWidget {
                   SecondRow()
                 ],
               ),
-            )));
+            ))));
   }
 }

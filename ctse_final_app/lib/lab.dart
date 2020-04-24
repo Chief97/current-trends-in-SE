@@ -1,5 +1,6 @@
 import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:flutter/material.dart';
+import 'Animation/Fade_Animation.dart';
 import 'courseModel.dart';
 
 
@@ -42,11 +43,6 @@ class lab extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Stack(
                         children: <Widget>[
-                          Icon(
-                            Icons.keyboard_arrow_left,
-                            color: Colors.white,
-                            size: 40,
-                          ),
                           Align(
                               alignment: Alignment.center,
                               child: Text(
@@ -198,7 +194,14 @@ class lab extends StatelessWidget {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
         body: SingleChildScrollView(
-            child: Container(
+        child:  FadeAnimation(1, Container(
+           decoration: BoxDecoration(
+                 image: DecorationImage(
+              image: AssetImage('Assets/white.jpg'),
+              fit: BoxFit.fitHeight,
+             alignment: Alignment.center
+            )
+           ),
               child: Column(
                 children: <Widget>[
                   HeaderDesign(context),
@@ -207,6 +210,6 @@ class lab extends StatelessWidget {
                   CourseListDetails()
                 ],
               ),
-            )));
+            ))));
   }
 }
