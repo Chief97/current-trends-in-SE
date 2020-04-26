@@ -1,6 +1,9 @@
 import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:flutter/material.dart';
 import 'courseModel.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
 class Lecture extends StatelessWidget {
