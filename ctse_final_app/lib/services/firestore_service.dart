@@ -24,4 +24,9 @@ class FirestoreService {
 //      return e.toString();
 //    }
   }
+
+  Stream<QuerySnapshot> get getUserData{
+    return _usersCollectionReference.snapshots();
+  }
+
 }
