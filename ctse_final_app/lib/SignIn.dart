@@ -1,6 +1,8 @@
 import 'package:ctsefinalapp/SignUp.dart';
 import 'package:ctsefinalapp/services/authentication.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 // ignore: camel_case_types
 class login extends StatefulWidget {
@@ -19,17 +21,28 @@ class _loginState extends State<login> {
   String password = '';
   String error = '';
 
+  //Toast Function Implementation
+  void showToast() {
+    Fluttertoast.showToast(
+        msg: 'Login Successfully ',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 2,
+        backgroundColor: Colors.pinkAccent,
+        textColor: Colors.white
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Container(
+       Container(
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('Assets/Image.png'),
                   fit: BoxFit.fitWidth,
                   alignment: Alignment.topCenter
-
               )
           ),
         ),
@@ -114,13 +127,21 @@ class _loginState extends State<login> {
                     onPressed: () async {
                       if(_key.currentState.validate()){
                         dynamic result = await _auth.signIn(email, password);
+
                         if( result == null){
                           setState(() => error = 'Could not sign in with these credentials');
                         }
+                        else{
+                          showToast();
+                        }
+
 //                      Navigator.push(
 //                        context,
 //                        MaterialPageRoute(builder: (context) => BottomNavPage()),
 //                      );
+                      }
+                      else{
+
                       }
                       },//since this is only a UI app
                     child: Text('LOG IN',
@@ -171,7 +192,7 @@ class _loginState extends State<login> {
                 Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: Center(
-                    child: Text('Dont Have an Account?',
+                    child: Text('Dont You Have an Account?',
                       style: TextStyle(
                           fontFamily: 'SFUIDisplay',
                           fontSize: 15,

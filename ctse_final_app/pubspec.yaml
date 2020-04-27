@@ -32,6 +32,9 @@ dependencies:
   firebase_core: any
   provider: ^4.0.4
   #3.1.0
+  simple_animations: ^1.2.0
+  fluttertoast: ^3.1.0
+  mobile_popup: ^1.2.0
 
 
 dev_dependencies:
@@ -53,6 +56,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - Assets/Image.png
+    - Assets/white.jpg
+    - Assets/bg11.jpg
+    - Assets/bg12.jpg
 
   #  - images/a_dot_ham.jpeg
 
