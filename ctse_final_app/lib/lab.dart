@@ -2,6 +2,7 @@ import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:flutter/material.dart';
 import 'Animation/Fade_Animation.dart';
 import 'courseModel.dart';
+import 'package:mobile_popup/mobile_popup.dart';
 
 
 class lab extends StatelessWidget {
@@ -78,7 +79,7 @@ class lab extends StatelessWidget {
   Widget Rows(String title) {
     return Container(
       // margin: EdgeInsets.symmetric(horizontal: 20),
-      height: 68,
+      height: 368,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,7 +208,135 @@ class lab extends StatelessWidget {
                   HeaderDesign(context),
                   SizedBox(height: 20),
                   Rows(""),
-                  CourseListDetails()
+
+                  FlatButton.icon(
+                    icon: Icon(Icons.add),
+                    label: Text('Add'),
+                    color: Colors.yellow,
+                    textColor: Colors.black,
+
+
+                    onPressed: () {
+                      showMobilePopup(
+                        context: context,
+                        builder: (context) => MobilePopUp(
+                          title: 'Add Lectures',
+                          child: Builder(
+                            builder: (navigator) => Scaffold(
+                              body: SingleChildScrollView(
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.all(20.0),
+                                      child: TextFormField(
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                        decoration: InputDecoration(
+                                            enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.redAccent
+                                                )
+                                            ),
+                                            labelText: 'Week :',
+                                            labelStyle: TextStyle(fontSize: 20,
+                                                color: Colors.black)
+                                        ),
+                                      ),
+                                    ),
+
+                                    Padding(
+                                      padding: EdgeInsets.all(20.0),
+                                      child: TextFormField(
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                        decoration: InputDecoration(
+                                            enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.redAccent
+                                                )
+                                            ),
+                                            labelText: 'Lab Title :',
+                                            labelStyle: TextStyle(fontSize: 20,
+                                                color: Colors.black)
+                                        ),
+                                      ),
+                                    ),
+
+                                    Padding(
+                                      padding: EdgeInsets.all(20.0),
+                                      child: TextFormField(
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                        decoration: InputDecoration(
+                                            enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.redAccent
+                                                )
+                                            ),
+                                            labelText: 'Duration :',
+                                            labelStyle: TextStyle(fontSize: 20,
+                                                color: Colors.black)
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(20.0),
+                                      child: MaterialButton(
+                                        onPressed: (){
+
+                                        },//since this is only a UI app
+                                        child: Text('File Upload',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: 'SFUIDisplay',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        color: Color(0xff9e9e9e),
+                                        minWidth: 100,
+                                        height: 30,
+                                        textColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(0.0)
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(30),
+                                      child: MaterialButton(
+                                        onPressed: () async {
+//
+                                        },
+                                        child: Text('Submit',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'SFUIDisplay',
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white
+                                          ),
+                                        ),
+                                        color: Color(0xffff2d55),
+                                        elevation: 0,
+                                        minWidth: 350,
+                                        height: 60,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(50)
+                                        ),
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ))));

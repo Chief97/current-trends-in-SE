@@ -2,7 +2,7 @@ import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:flutter/material.dart';
 import 'Animation/Fade_Animation.dart';
 import 'courseModel.dart';
-
+import 'package:mobile_popup/mobile_popup.dart';
 
 class Lecture extends StatelessWidget {
   Lecture({Key key}) : super(key: key);double width;
@@ -43,11 +43,6 @@ class Lecture extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Stack(
                         children: <Widget>[
-//                          Icon(
-//                            Icons.keyboard_arrow_left,
-//                            color: Colors.white,
-//                            size: 40,
-//                          ),
                           Align(
                               alignment: Alignment.center,
                               child: Text(
@@ -82,23 +77,19 @@ class Lecture extends StatelessWidget {
 
   Widget Rows(String title) {
     return Container(
-      // margin: EdgeInsets.symmetric(horizontal: 20),
-      height: 68,
+      height: 368,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 60),
             child: Text(
               title,
               style: TextStyle(
                   color: LightColor.extraDarkPurple,
                   fontWeight: FontWeight.bold),
             ),
-          ),
-          SizedBox(
-            height: 10,
           ),
           Container(
               width: width,
@@ -108,7 +99,8 @@ class Lecture extends StatelessWidget {
                 children: <Widget>[
                 ],
               )),
-          SizedBox(height: 10)
+
+          //SizedBox(height: 10)
         ],
       ),
     );
@@ -198,6 +190,7 @@ class Lecture extends StatelessWidget {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: SingleChildScrollView(
             child:  FadeAnimation(1, Container(
                 decoration: BoxDecoration(
@@ -210,9 +203,134 @@ class Lecture extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   HeaderDesign(context),
-                  SizedBox(height: 20),
                   Rows(""),
-                  CourseListDetails()
+                  FlatButton.icon(
+                    icon: Icon(Icons.add),
+                    label: Text('Add'),
+                    color: Colors.yellow,
+                    textColor: Colors.black,
+                    onPressed: () {
+                        showMobilePopup(
+                          context: context,
+                          builder: (context) => MobilePopUp(
+                            title: 'Add Lab Materials',
+                            child: Builder(
+                              builder: (navigator) => Scaffold(
+                                body: SingleChildScrollView(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.all(20.0),
+                                        child: TextFormField(
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                          decoration: InputDecoration(
+                                              enabledBorder: UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.redAccent
+                                                  )
+                                              ),
+                                              labelText: 'Week :',
+                                              labelStyle: TextStyle(fontSize: 20,
+                                                  color: Colors.black)
+                                          ),
+                                        ),
+                                      ),
+
+                                      Padding(
+                                        padding: EdgeInsets.all(20.0),
+                                        child: TextFormField(
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                          decoration: InputDecoration(
+                                              enabledBorder: UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.redAccent
+                                                  )
+                                              ),
+                                              labelText: 'Module Name :',
+                                              labelStyle: TextStyle(fontSize: 20,
+                                                  color: Colors.black)
+                                          ),
+                                        ),
+                                      ),
+
+                                      Padding(
+                                        padding: EdgeInsets.all(20.0),
+                                        child: TextFormField(
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                          decoration: InputDecoration(
+                                              enabledBorder: UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.redAccent
+                                                  )
+                                              ),
+                                              labelText: 'Lecturer Name :',
+                                              labelStyle: TextStyle(fontSize: 20,
+                                                  color: Colors.black)
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(20.0),
+                                        child: MaterialButton(
+                                          onPressed: (){
+
+                                          },//since this is only a UI app
+                                          child: Text('File Upload',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'SFUIDisplay',
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          color: Color(0xff9e9e9e),
+                                          minWidth: 100,
+                                          height: 30,
+                                          textColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(0.0)
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(30),
+                                        child: MaterialButton(
+                                          onPressed: () async {
+//
+                                          },
+                                          child: Text('Submit',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontFamily: 'SFUIDisplay',
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white
+                                            ),
+                                          ),
+                                          color: Color(0xffff2d55),
+                                          elevation: 0,
+                                          minWidth: 350,
+                                          height: 60,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(50)
+                                          ),
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  //CourseListDetails()
                 ],
               ),
             ))));
