@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'Animation/Fade_Animation.dart';
 import 'courseModel.dart';
 import 'package:mobile_popup/mobile_popup.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Lecture extends StatelessWidget {
   Lecture({Key key}) : super(key: key);double width;

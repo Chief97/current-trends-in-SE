@@ -1,5 +1,8 @@
+import 'package:ctsefinalapp/models/userProfile.dart';
 import 'package:ctsefinalapp/models/userModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'firestore_service.dart';
 
 class AuthenticationService {
 
@@ -34,6 +37,9 @@ class AuthenticationService {
     try{
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(email: email,password: password);
       FirebaseUser user = authResult.user;
+      UserProfile users = UserProfile(email: email,fullName: fName);
+
+      await FirestoreService(userId: user.uid).addUsers(users);
       return _userFirebaseUser(user);
     }catch(exception){
       print(exception.toString());

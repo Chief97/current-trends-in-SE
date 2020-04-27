@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:ctsefinalapp/services/authentication.dart';
 import 'Animation/Fade_Animation.dart';
+import 'package:provider/provider.dart';
+import 'package:ctsefinalapp/services/firestore_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class user extends StatelessWidget {
@@ -12,6 +15,15 @@ class user extends StatelessWidget {
   double width;
 
   Widget HeaderDesign(BuildContext context) {
+    //stream to access the user data
+    //
+    // *StreamProvider<QuerySnapshot>.value(
+    //value: FirestoreService().getUserData *
+    //
+    //add only the part within the * to section where you want to access the
+    //user data by first right clicking on return widget bulb icon and selecting
+    // wrap with widget and instead of widget paste these.
+
     var width = MediaQuery.of(context).size.width;
     return ClipRRect(
       borderRadius: BorderRadius.only(
