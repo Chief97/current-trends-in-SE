@@ -209,13 +209,14 @@ class lab extends StatelessWidget {
                   SizedBox(height: 20),
                   Rows(""),
 
+                  //Added Add Icon Button
                   FlatButton.icon(
                     icon: Icon(Icons.add),
                     label: Text('Add'),
                     color: Colors.yellow,
                     textColor: Colors.black,
 
-
+                    // Popup will be called by using showMobilePopup()
                     onPressed: () {
                       showMobilePopup(
                         context: context,
