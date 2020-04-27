@@ -22,11 +22,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
+      value: AuthenticationService().user,
       child: MaterialApp(
         home: Home(),
         debugShowCheckedModeBanner: false,
       ),
-      value: AuthenticationService().user,
     );
   }
 }
