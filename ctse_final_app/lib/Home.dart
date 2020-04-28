@@ -11,6 +11,7 @@ class Home extends StatelessWidget {
     final user = Provider.of<User>(context);
     print(user);
 
+    
     if(user == null) {
       return Container(
           child: Scaffold(
