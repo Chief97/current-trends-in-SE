@@ -2,7 +2,7 @@ import 'package:ctsefinalapp/models/userProfile.dart';
 import 'package:ctsefinalapp/models/userModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'firestore_service.dart';
+import 'firebase_service.dart';
 
 class AuthenticationService {
 

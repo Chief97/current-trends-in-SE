@@ -3,7 +3,7 @@ import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:ctsefinalapp/services/authentication.dart';
 import 'Animation/Fade_Animation.dart';
 import 'package:provider/provider.dart';
-import 'package:ctsefinalapp/services/firestore_service.dart';
+import 'package:ctsefinalapp/services/firebase_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 

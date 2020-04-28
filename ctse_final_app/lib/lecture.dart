@@ -1,16 +1,71 @@
+import 'package:ctsefinalapp/models/lectureModel.dart';
+import 'package:ctsefinalapp/services/authentication.dart';
+import 'package:ctsefinalapp/services/firebase_service.dart';
 import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'Animation/Fade_Animation.dart';
 import 'courseModel.dart';
 import 'package:mobile_popup/mobile_popup.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
 
-class Lecture extends StatelessWidget {
-  Lecture({Key key}) : super(key: key);double width;
+class Lecture extends StatefulWidget {
+  Lecture({Key key}) : super(key: key);
+  @override
+  _LectureState createState() => _LectureState();
+}
 
-  /* Header Design*/
+class _LectureState extends State<Lecture> {
+double width;
+  final AuthenticationService _auth = AuthenticationService();
+
+  final _key = GlobalKey<FormState>();
+
+//  String fileName = '';
+  String lectureTitle = '';
+  String week = '';
+  String lecturerName = '';
+  String error = '';
+  File tempFile;
+  List<String> extentions = new List<String>();
+//  StorageUploadTask uploadTask;
+//  String _path;
+//  Map<String,String> _paths;
+//  String _extension;
+//  bool _loadingPath = false;
+//  bool _hasValidMime = false;
+//  FileType _pickingType;
+//  TextEditingController _controller = new TextEditingController();
+
+//Toast Function Implementation
+void showToast() {
+  Fluttertoast.showToast(
+      msg: 'File uploaded Successfully ',
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIos: 2,
+      backgroundColor: Colors.pinkAccent,
+      textColor: Colors.white
+  );
+}
+
+Future openFileExplorer() async {
+//  if(_pickingType != FileType.custom || _hasValidMime){
+//    setState(() =>_loadingPath = true);
+  extentions.add('pdf');
+    try{
+      tempFile = await FilePicker.getFile(type: FileType.custom, allowedExtensions: extentions);
+    }catch(e){
+      print(e.toString());
+    }
+}
+
+
   Widget HeaderDesign(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return ClipRRect(
@@ -62,7 +117,6 @@ class Lecture extends StatelessWidget {
     );
   }
 
-  /*Header Circle Design*/
   Widget HeaderCircleDesigner(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
@@ -75,8 +129,6 @@ class Lecture extends StatelessWidget {
       ),
     );
   }
-
-
 
   Widget Rows(String title) {
     return Container(
@@ -109,7 +161,6 @@ class Lecture extends StatelessWidget {
     );
   }
 
-/* Define the Course by List*/
   Widget CourseListDetails() {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -147,7 +198,6 @@ class Lecture extends StatelessWidget {
       ),
     );
   }
-  
 
   Widget CourseInfomation(CourseModel model) {
     return Container(
@@ -189,6 +239,7 @@ class Lecture extends StatelessWidget {
         ));
   }
 
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -220,116 +271,150 @@ class Lecture extends StatelessWidget {
                         showMobilePopup(
                           context: context,
                           builder: (context) => MobilePopUp(
-                            title: 'Add Lab Materials',
+                            title: 'Add Lecture Materials',
                             child: Builder(
                               builder: (navigator) => Scaffold(
                                 body: SingleChildScrollView(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.all(20.0),
-                                        child: TextFormField(
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                          decoration: InputDecoration(
-                                              enabledBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.redAccent
-                                                  )
+                                    child: Form(
+                                      key: _key,
+                                      child: Column(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.all(20.0),
+                                            child: TextFormField(
+                                              style: TextStyle(
+                                                color: Colors.black,
                                               ),
-                                              labelText: 'Week :',
-                                              labelStyle: TextStyle(fontSize: 20,
-                                                  color: Colors.black)
-                                          ),
-                                        ),
-                                      ),
-
-                                      Padding(
-                                        padding: EdgeInsets.all(20.0),
-                                        child: TextFormField(
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                          decoration: InputDecoration(
-                                              enabledBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.redAccent
-                                                  )
+                                              validator: (value) => value.isEmpty ? 'Enter week number' : null,
+                                              onChanged: (value){
+                                                setState(() => week = value );
+                                              },
+                                              decoration: InputDecoration(
+                                                  enabledBorder: UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.redAccent
+                                                      )
+                                                  ),
+                                                  labelText: 'Week :',
+                                                  labelStyle: TextStyle(fontSize: 20,
+                                                      color: Colors.black)
                                               ),
-                                              labelText: 'Module Name :',
-                                              labelStyle: TextStyle(fontSize: 20,
-                                                  color: Colors.black)
-                                          ),
-                                        ),
-                                      ),
-
-                                      Padding(
-                                        padding: EdgeInsets.all(20.0),
-                                        child: TextFormField(
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                          decoration: InputDecoration(
-                                              enabledBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.redAccent
-                                                  )
-                                              ),
-                                              labelText: 'Lecturer Name :',
-                                              labelStyle: TextStyle(fontSize: 20,
-                                                  color: Colors.black)
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(20.0),
-                                        child: MaterialButton(
-                                          onPressed: (){
-
-                                          },//since this is only a UI app
-                                          child: Text('File Upload',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontFamily: 'SFUIDisplay',
-                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          color: Color(0xff9e9e9e),
-                                          minWidth: 100,
-                                          height: 30,
-                                          textColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(0.0)
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(30),
-                                        child: MaterialButton(
-                                          onPressed: () async {
-//
-                                          },
-                                          child: Text('Submit',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontFamily: 'SFUIDisplay',
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white
+
+                                          Padding(
+                                            padding: EdgeInsets.all(20.0),
+                                            child: TextFormField(
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                              ),
+                                              validator: (value) => value.isEmpty ? 'Enter Lecture Name' : null,
+                                              onChanged: (value){
+                                                setState(() => lectureTitle = value );
+                                              },
+                                              decoration: InputDecoration(
+                                                  enabledBorder: UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.redAccent
+                                                      )
+                                                  ),
+                                                  labelText: 'Lecture Title :',
+                                                  labelStyle: TextStyle(fontSize: 20,
+                                                      color: Colors.black)
+                                              ),
                                             ),
                                           ),
-                                          color: Color(0xffff2d55),
-                                          elevation: 0,
-                                          minWidth: 350,
-                                          height: 60,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(50)
-                                          ),
-                                        ),
-                                      ),
 
-                                    ],
-                                  ),
+                                          Padding(
+                                            padding: EdgeInsets.all(20.0),
+                                            child: TextFormField(
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                              ),
+                                              validator: (value) => value.isEmpty ? 'Enter lecturer name' : null,
+                                              onChanged: (value){
+                                                setState(() => lecturerName = value );
+                                              },
+                                              decoration: InputDecoration(
+                                                  enabledBorder: UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.redAccent
+                                                      )
+                                                  ),
+                                                  labelText: 'Lecturer Name :',
+                                                  labelStyle: TextStyle(fontSize: 20,
+                                                      color: Colors.black)
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(20.0),
+                                            child: MaterialButton(
+                                              onPressed: () {
+                                                if(_key.currentState.validate()) {
+                                                  openFileExplorer();
+                                                }
+                                                },//since this is only a UI app
+                                              child: Text('Select File',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'SFUIDisplay',
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              color: Color(0xff9e9e9e),
+                                              minWidth: 100,
+                                              height: 30,
+                                              textColor: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(0.0)
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(30),
+                                            child: MaterialButton(
+                                              onPressed: () async {
+                                                if(_key.currentState.validate()) {
+                                                  if (tempFile == null) {
+                                                    Text('Select a file');
+                                                  } else {
+                                                    LectureModel lecture = LectureModel(
+                                                        week: week,
+                                                        lectureTitle: lectureTitle,
+                                                        lecturerName: lecturerName);
+                                                    dynamic result = FirestoreService()
+                                                        .uploadLectureFile(lecture, tempFile);
+                                                    if (result == null) {
+                                                      setState(() => error ='Unable to upload');
+                                                    }
+                                                    else {
+                                                      showToast();
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              child: Text('Upload',
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontFamily: 'SFUIDisplay',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white
+                                                ),
+                                              ),
+                                              color: Color(0xffff2d55),
+                                              elevation: 0,
+                                              minWidth: 350,
+                                              height: 60,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(50)
+                                              ),
+                                            ),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
                                 ),
                               ),
                             ),
