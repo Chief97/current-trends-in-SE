@@ -25,7 +25,19 @@ class FirestoreService {
 //    }
   }
 
-  Stream<QuerySnapshot> get getUserData{
+
+
+  //user list from snapshot
+//List <UserProfile> _userListFormSnapshot(QuerySnapshot snapshot){
+//    return snapshot.documents.map((doc){
+//      return UserProfile(
+//        email: doc.data['email'] ?? '',
+//        fullName:  doc.data['fullName'] ?? '',
+//      );
+//    }).toList();
+//}
+
+  Stream<QuerySnapshot> get UserData{
     return _usersCollectionReference.snapshots();
   }
 

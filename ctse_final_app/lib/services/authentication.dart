@@ -55,7 +55,10 @@ class AuthenticationService {
       return null;
     }
   }
-
+  // GET CURRENT USER
+  Future getCurrentUser() async {
+    return await _auth.currentUser();
+  }
 
 
 }

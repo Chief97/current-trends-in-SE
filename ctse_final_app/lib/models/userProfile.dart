@@ -10,6 +10,14 @@ class UserProfile{
     @required this.email,
     @required this.fullName});
 
+  getterFullName(){
+    return this.fullName;
+  }
+
+  getterEmail(){
+    return this.email;
+  }
+
 //  Map<String, dynamic> toMap() {
 //    return {
 ////      'userId' : userId,

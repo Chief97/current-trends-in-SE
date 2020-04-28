@@ -29,15 +29,12 @@ class Lecture extends StatelessWidget {
               Positioned(
                   top: 10,
                   right: -120,
-                  child: HeaderCircleDesigner(100, LightColor.lightOrange2)),
+                  child: HeaderCircleDesigner(300, Colors.orangeAccent)),
               Positioned(
                   top: -60,
                   left: -65,
-                  child: HeaderCircleDesigner(width * .5, LightColor.darkOrange)),
-              Positioned(
-                  top: -230,
-                  right: -30,
-                  child: HeaderCircleDesigner(width * .7, Colors.transparent, borderColor: Colors.white38)),
+                  child: HeaderCircleDesigner(width * .5, Colors.orangeAccent)),
+
               Positioned(
                   top: 50,
                   left: 0,

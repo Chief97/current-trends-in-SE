@@ -29,16 +29,12 @@ class notification extends StatelessWidget {
               Positioned(
                   top: 10,
                   right: -120,
-                  child: _circularContainer(300, LightColor.lightOrange2)),
+                  child: HeaderCircleDesigner(300, LightColor.lightOrange2)),
               Positioned(
                   top: -60,
                   left: -65,
-                  child: _circularContainer(width * .5, LightColor.darkOrange)),
-              Positioned(
-                  top: -230,
-                  right: -30,
-                  child: _circularContainer(width * .7, Colors.transparent,
-                      borderColor: Colors.white38)),
+                  child: HeaderCircleDesigner(width * .5, LightColor.darkOrange)),
+
               Positioned(
                   top: 50,
                   left: 0,
@@ -63,7 +59,7 @@ class notification extends StatelessWidget {
     );
   }
 
-  Widget _circularContainer(double height, Color color,
+  Widget HeaderCircleDesigner(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
       height: height,

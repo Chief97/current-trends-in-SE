@@ -25,7 +25,7 @@ class homePage extends StatelessWidget {
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
       child: Container(
-          height: 200,
+          height: 150,
           width: width,
           decoration: BoxDecoration(
             color: LightColor.purple,
@@ -37,12 +37,12 @@ class homePage extends StatelessWidget {
               Positioned(
                   top: 30,
                   right: -100,
-                  child: _headerCircleDesign(300, LightColor.lightpurple)
+                  child: HeaderCircleDesign(300, LightColor.lightpurple)
               ),
               Positioned(
                   top: -100,
                   left: -45,
-                  child: _headerCircleDesign(width * .5, LightColor.darkpurple)),
+                  child: HeaderCircleDesign(width * .5, LightColor.darkpurple)),
               Positioned(
                   top: 50,
                   left: 0,
@@ -97,7 +97,7 @@ class homePage extends StatelessWidget {
   }
 
   //This is for Header Circle Design Function
-  Widget _headerCircleDesign(double height, Color color,
+  Widget HeaderCircleDesign(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
       height: height,
