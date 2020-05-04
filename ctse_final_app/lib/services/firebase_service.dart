@@ -49,20 +49,20 @@ class FirestoreService {
   Future uploadFile(LectureModel lecture,String type, File tempFile) async {
     if(type == _type) {
       _document = await _lecturesCollectionReference.add({
-        'id': _document.documentID,
         'week': lecture.week,
         'title': lecture.title,
         'lecturerName': lecture.lecturerName,
       });
+
+      await _lecturesCollectionReference.document(_document.documentID).updateData({'id':_document.documentID});
     }else{
         _document = await _labCollectionReference.add({
-          'id': _document.documentID,
           'week': lecture.week,
           'title': lecture.title,
           'lecturerName': lecture.lecturerName,
         });
+        await _labCollectionReference.document(_document.documentID).updateData({'id':_document.documentID});
     }
-    print(_document.documentID);
 //    _fileRef = ;
 
      _uploadTask = _storageRef.child(type+'/'+_document.documentID).putFile(tempFile);
