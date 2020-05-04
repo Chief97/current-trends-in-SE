@@ -2,13 +2,15 @@ import 'package:flutter/foundation.dart';
 
 class LectureModel {
 //  final String userId;
-  final String week;
-  final String lectureTitle;
-  final String lecturerName;
+  String _id;
+  int week;
+  String title;
+  String lecturerName;
 
   LectureModel({
 //    @required this.userId,
     @required this.week,
-    @required this.lectureTitle,
+    @required this.title,
     @required this.lecturerName});
 }
+

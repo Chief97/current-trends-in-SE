@@ -11,6 +11,7 @@ class homePage extends StatelessWidget {
   homePage({Key key}) : super(key: key);
 
   double width;
+  bool _loading = false;
 
 
   final AuthenticationService _auth = AuthenticationService();
@@ -54,8 +55,13 @@ class homePage extends StatelessWidget {
                           Align(
                             alignment: Alignment.topRight,
                             child: FlatButton.icon(
-                              icon: Icon(Icons.person),
-                              label: Text('Logout'),
+                              icon: Icon(
+                                  Icons.person,
+                              color: Colors.white),
+                              label: Text('Logout',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),),
                               onPressed: () async {
                                 await _auth.signOut();
                                 showToast();

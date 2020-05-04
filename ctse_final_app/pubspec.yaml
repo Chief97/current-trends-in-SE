@@ -36,11 +36,19 @@ dependencies:
   fluttertoast: ^3.1.0
   mobile_popup: ^1.2.0
   file_picker: ^1.7.1
+  url_launcher: ^5.4.5
+  grouped_list: ^2.3.0
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  flutter_launcher_icons: ^0.7.5
+
+flutter_icons:
+  image_path: "Assets/Image.png"
+  android: true
 
 
 # For information on the generic Dart part of this file, see the

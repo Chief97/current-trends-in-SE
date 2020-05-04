@@ -2,17 +2,16 @@ import 'package:ctsefinalapp/models/lectureModel.dart';
 import 'package:ctsefinalapp/services/authentication.dart';
 import 'package:ctsefinalapp/services/firebase_service.dart';
 import 'package:ctsefinalapp/theme/color/light_color.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'Animation/Fade_Animation.dart';
 import 'courseModel.dart';
 import 'package:mobile_popup/mobile_popup.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
+import 'package:url_launcher/url_launcher.dart';
 
 class Lecture extends StatefulWidget {
   Lecture({Key key}) : super(key: key);
@@ -28,11 +27,14 @@ double width;
 
 //  String fileName = '';
   String lectureTitle = '';
-  String week = '';
+  String week;
   String lecturerName = '';
   String error = '';
   File tempFile;
-  List<String> extentions = new List<String>();
+  List<String> ext = new List<String>();
+  String _type = "lectures";
+  dynamic _lectures;
+  String _download;
 //  StorageUploadTask uploadTask;
 //  String _path;
 //  Map<String,String> _paths;
@@ -57,14 +59,23 @@ void showToast() {
 Future openFileExplorer() async {
 //  if(_pickingType != FileType.custom || _hasValidMime){
 //    setState(() =>_loadingPath = true);
-  extentions.add('pdf');
+  ext.add('pdf');
     try{
-      tempFile = await FilePicker.getFile(type: FileType.custom, allowedExtensions: extentions);
+      tempFile = await FilePicker.getFile(type: FileType.custom, allowedExtensions: ext);
     }catch(e){
       print(e.toString());
     }
 }
 
+@override
+void initState(){
+  FirestoreService().getLecturesData().then((results){
+    setState (() {
+      _lectures = results;
+    });
+  });
+  super.initState();
+}
 
   Widget HeaderDesign(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -84,11 +95,11 @@ Future openFileExplorer() async {
               Positioned(
                   top: 10,
                   right: -120,
-                  child: HeaderCircleDesigner(100, LightColor.lightOrange2)),
+                  child: HeaderCircleDesigner(100, LightColor.darkOrange)),
               Positioned(
                   top: -60,
                   left: -65,
-                  child: HeaderCircleDesigner(width * .5, LightColor.darkOrange)),
+                  child: HeaderCircleDesigner(width * .5, LightColor.lightOrange2)),
               Positioned(
                   top: -230,
                   right: -30,
@@ -239,6 +250,86 @@ Future openFileExplorer() async {
         ));
   }
 
+  Widget DisplayLectures(BuildContext context){
+    return StreamBuilder(
+      stream: _lectures,
+      builder: (context, snapshot){
+//        if(snapshot.data.documents == null)
+//            return Text('No data');
+        if(!snapshot.hasData)
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        else {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+
+                decoration: BoxDecoration(
+
+                ),
+                child: ListView.separated(
+                    itemBuilder: (BuildContext context, int index)
+                    {
+                      return ListTile(
+                        title: RichText(
+                            text: new TextSpan(
+                                children: [
+                                  new TextSpan(
+                                    text: 'Week '+snapshot.data.documents[index]['week'].toString(),
+                                    style: new TextStyle(
+                                        color: Colors.black,
+                                    fontSize: 25),
+                                  ),
+                                ]
+                            )
+                        ),
+                        subtitle: RichText(
+                            text: new TextSpan(
+                                children: [
+                                  new WidgetSpan(
+                                      child: Icon(
+                                          Icons.picture_as_pdf,
+                                          size: 25,
+                                          color: Colors.red,
+                                      )
+                                  ),
+                                  new TextSpan(
+                                    text: '  '+ snapshot.data.documents[index]['title'],
+                                      style: new TextStyle(
+                                          color: Colors.lightBlue,
+                                      fontSize: 19,
+                                      ),
+                                      recognizer: new TapGestureRecognizer()
+                                        ..onTap = () async {
+                                          _download = await FirestoreService().downloadFile(_type, snapshot.data.documents[index]['id']);
+                                          launch(_download);
+                                        }
+                                  ),
+                                ]
+                            )
+                        )
+                      );
+                      },
+                    separatorBuilder: (BuildContext context, int index){
+                      return Divider(
+                        color: Colors.black,
+                      );
+                    },
+                  itemCount: snapshot.data.documents.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                )
+              )
+            ],
+          );
+        }
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -246,35 +337,38 @@ Future openFileExplorer() async {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: SingleChildScrollView(
-            child:  FadeAnimation(1, Container(
-                decoration: BoxDecoration(
-                 image: DecorationImage(
-                 image: AssetImage('Assets/white.jpg'),
-                  fit: BoxFit.fitHeight,
-                 alignment: Alignment.center
-               )
-              ),
-              child: Column(
-                children: <Widget>[
-                  HeaderDesign(context),
-                  Rows(""),
+            child:  FadeAnimation(1,
+                Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('Assets/white2.jpg'),
+                          fit: BoxFit.fitHeight,
+                          alignment: Alignment.center
+                      )
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      HeaderDesign(context),
+//                      Rows(""),
+
+                      DisplayLectures(context),
 
                   //Added Add Icon Button
-                  FlatButton.icon(
-                    icon: Icon(Icons.add),
-                    label: Text('Add'),
-                    color: Colors.yellow,
-                    textColor: Colors.black,
+                      FlatButton.icon(
+                        icon: Icon(Icons.add),
+                        label: Text('Add'),
+                        color: Colors.yellow,
+                        textColor: Colors.black,
 
                     // Popup will be called by using showMobilePopup()
-                    onPressed: () {
-                        showMobilePopup(
-                          context: context,
-                          builder: (context) => MobilePopUp(
-                            title: 'Add Lecture Materials',
-                            child: Builder(
-                              builder: (navigator) => Scaffold(
-                                body: SingleChildScrollView(
+                        onPressed: () {
+                          showMobilePopup(
+                            context: context,
+                            builder: (context) => MobilePopUp(
+                              title: 'Add Lecture Materials',
+                              child: Builder(
+                                builder: (navigator) => Scaffold(
+                                  body: SingleChildScrollView(
                                     child: Form(
                                       key: _key,
                                       child: Column(
@@ -285,10 +379,14 @@ Future openFileExplorer() async {
                                               style: TextStyle(
                                                 color: Colors.black,
                                               ),
+                                              keyboardType: TextInputType.number,
+//                                              inputFormatters: <TextInputFormatters>[
+//                                                WhitelistingTextInputFormatter.digitsOnly
+//                                              ],
                                               validator: (value) => value.isEmpty ? 'Enter week number' : null,
                                               onChanged: (value){
-                                                setState(() => week = value );
-                                              },
+                                                setState(() => week = value);
+                                                },
                                               decoration: InputDecoration(
                                                   enabledBorder: UnderlineInputBorder(
                                                       borderSide: BorderSide(
@@ -380,11 +478,11 @@ Future openFileExplorer() async {
                                                     Text('Select a file');
                                                   } else {
                                                     LectureModel lecture = LectureModel(
-                                                        week: week,
-                                                        lectureTitle: lectureTitle,
+                                                        week: int.parse(week),
+                                                        title: lectureTitle,
                                                         lecturerName: lecturerName);
-                                                    dynamic result = FirestoreService()
-                                                        .uploadLectureFile(lecture, tempFile);
+                                                    dynamic result = await FirestoreService()
+                                                        .uploadFile(lecture, _type, tempFile);
                                                     if (result == null) {
                                                       setState(() => error ='Unable to upload');
                                                     }
@@ -411,20 +509,22 @@ Future openFileExplorer() async {
                                               ),
                                             ),
                                           ),
-
                                         ],
                                       ),
                                     ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
+                          );
+                          },
+                      ),
                   //CourseListDetails()
-                ],
-              ),
-            ))));
+                    ],
+                  ),
+                )
+            )
+        )
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ctsefinalapp/models/lectureModel.dart';
+import 'package:ctsefinalapp/models/lectureModel.dart';
 import 'package:ctsefinalapp/models/userProfile.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -16,7 +17,14 @@ class FirestoreService {
       .collection('users');
   final CollectionReference _lecturesCollectionReference = Firestore.instance
       .collection('lectures');
+  final CollectionReference _labCollectionReference = Firestore.instance
+      .collection('labs');
   final StorageReference _storageRef = FirebaseStorage.instance.ref();
+  final String _type = "lectures";
+  DocumentReference _document;
+  StorageUploadTask _uploadTask;
+  StorageReference _fileRef;
+  String _downloadURL;
 
 
   Future addUsers(UserProfile user) async {
@@ -38,19 +46,54 @@ class FirestoreService {
     return _usersCollectionReference.snapshots();
   }
 
-  Future uploadLectureFile(LectureModel lecture, File tempFile) async {
-    final document = await _lecturesCollectionReference.add({
-      'week': lecture.week,
-      'lectureTitle': lecture.lectureTitle,
-      'lecturerName': lecture.lecturerName,
-    });
-    print(document.documentID);
+  Future uploadFile(LectureModel lecture,String type, File tempFile) async {
+    if(type == _type) {
+      _document = await _lecturesCollectionReference.add({
+        'id': _document.documentID,
+        'week': lecture.week,
+        'title': lecture.title,
+        'lecturerName': lecture.lecturerName,
+      });
+    }else{
+        _document = await _labCollectionReference.add({
+          'id': _document.documentID,
+          'week': lecture.week,
+          'title': lecture.title,
+          'lecturerName': lecture.lecturerName,
+        });
+    }
+    print(_document.documentID);
+//    _fileRef = ;
 
-
-    final StorageUploadTask uploadTask = _storageRef.child(document.documentID)
-        .putFile(tempFile);
-    return uploadTask.isComplete;
+     _uploadTask = _storageRef.child(type+'/'+_document.documentID).putFile(tempFile);
+     return _uploadTask.isComplete;
+//    if(_uploadTask.isComplete){
+//      return downloadFile(type, _document.documentID);
+//    }else{
+//      await _uploadTask.isComplete;
+//      return downloadFile(type, _document.documentID);
+//    }
+  }
+  Future<String> downloadFile(String type,dynamic ref) async {
+    if(type == _type) {
+//      DocumentSnapshot value = await _lecturesCollectionReference.document(ref)
+//          .get();
+      _downloadURL = await _storageRef.child(type+'/'+ref).getDownloadURL();
+      return _downloadURL;
+    } else{
+//      DocumentSnapshot value = await _labCollectionReference.document(ref)
+//          .get();
+      _downloadURL = await _storageRef.child(type+'/'+ref).getDownloadURL();
+      return _downloadURL;
+    }
   }
 
+  getLecturesData() async {
+    return await _lecturesCollectionReference.snapshots();
+  }
+
+  getLabsData() async {
+    return await _labCollectionReference.snapshots();
+  }
 
 }
