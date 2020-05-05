@@ -1,331 +1,267 @@
-import 'package:flutter/material.dart';
-import 'package:ctsefinalapp/theme/color/light_color.dart';
-import 'package:ctsefinalapp/services/authentication.dart';
-import 'Animation/Fade_Animation.dart';
-import 'package:provider/provider.dart';
-import 'package:ctsefinalapp/services/firebase_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ctsefinalapp/services/authentication.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
+import 'Animation/Fade_Animation.dart';
+import 'models/userModel.dart';
+import 'dart:io';
 
 
-class user extends StatelessWidget {
-  // This widget is the root of your application.
-  user({Key key}) : super(key: key);
-  final AuthenticationService _auth = AuthenticationService();
-
-  double width;
-
-  Widget HeaderDesign(BuildContext context) {
-    //stream to access the user data
-    //
-    // *StreamProvider<QuerySnapshot>.value(
-    //value: FirestoreService().getUserData *
-    //
-    //add only the part within the * to section where you want to access the
-    //user data by first right clicking on return widget bulb icon and selecting
-    // wrap with widget and instead of widget paste these.
-
-    var width = MediaQuery.of(context).size.width;
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
-      child: Container(
-          height: 150,
-          width: width,
-          decoration: BoxDecoration(
-            color: Colors.pinkAccent,
-          ),
-          child: Stack(
-            fit: StackFit.expand,
-            alignment: Alignment.center,
-            children: <Widget>[
-              Positioned(
-                //height: .0,
-                width: width,
-                child: FadeAnimation(1, Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('Assets/Image.png'),
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter
-                      )
-                  ),
-                )),
-              ),
-
-
-              Positioned(
-                  top: 10,
-                  right: -120,
-                  child: HeaderCircleDesigner(250, LightColor.extraDarkPurple)),
-              Positioned(
-                  top: -60,
-                  left: -65,
-                  child: HeaderCircleDesigner(width * .4, LightColor.extraDarkPurple)),
-              Positioned(
-                  top: 50,
-                  left: 0,
-                  child: Container(
-                      width: width,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Stack(
-                        children: <Widget>[
-
-                          Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "User profile",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.w500),
-                              )
-                          )
-                        ],
-                      )
-                  )
-              ),
-
-            ],
-          )),
+class userPage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      home: UserPage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 
+}
 
-  Widget HeaderCircleDesigner(double height, Color color,
-      {Color borderColor = Colors.transparent, double borderWidth = 2}) {
-    return Container(
-      height: height,
-      width: height,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color,
-        border: Border.all(color: borderColor, width: borderWidth),
-      ),
-    );
-  }
+class UserPage extends StatefulWidget{
+  @override
+  _UserPageState createState() => new _UserPageState();
 
-  //Design The Rows
-  Widget Rows(String title,
-      Color primary,
-      Color textColor,) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30),
-      height: 10,
-      child: Row(
-        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(
-                color: LightColor.lightpurple,
-                fontSize: 20,
-                fontWeight: FontWeight.bold
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+}
 
+class _UserPageState extends State<UserPage>{
+  User up=new User();
+  //var user=int.parse(up.uid);
+  AuthenticationService auth;
 
-  //This is indicate the first row which contains Lecturer,Lab in charge Details
-  Widget UserRow() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            card(
-                primarycolor: Colors.pinkAccent,
-                backWidget: decorationOfUserCard(
-                  Colors.white,
-                  30,
-                  30,
-                ),
-                imagepath:
-                "https://img.pngio.com/registration-for-under-graduate-student-icon-png-free-student-icon-png-820_731.png"),
-
-          ],
-
-        ),
-      ),
-    );
-  }
-
-  Widget displayUserInformation() {
-    return Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(top: 10),
-          ),
-          Padding(
-            padding: EdgeInsets.all(1.0),
-            child: Text("Name :Name  ",style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold,),),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text("E-mail :Email  ",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 30),
-            child: MaterialButton(
-
-              onPressed: () async {
-                await _auth.signOut();
-              },
-              child: Text('Logout',
-                style: TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'SFUIDisplay',
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
-                ),
-              ),
-              color: Color(0xffff2d55),
-              elevation: 0,
-              minWidth: 150,
-              height: 60,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50)
-              ),
-            ),
-          ),
-
-        ],
-    );
-
-  }
-
-  /* Card Function : Each box in the page : Lecture,Lab, Machine learning,etc */
-  Widget card({Color primarycolor = Colors.white,
-    String imagepath,
-    String textOne = '',
-    Widget backWidget,
-    bool isPrimaryCard = false}) {
-    return Container(
-      /* Set Here Cards Alignment:height  */
-        height: isPrimaryCard ? 100 : 140,
-        width: isPrimaryCard ? width * .50 : width * .35,
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          child: Container(
-            child: Stack(
-              children: <Widget>[
-                backWidget,
-                Positioned(
-                    top: 5,
-                    left: 10,
-                    /* Set Here the Circle Image Size */
-                    child: CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(imagepath),
-                    )),
-                Positioned(
-                  bottom: 10,
-                  left: 10,
-                  child: detailsOfCard(textOne, LightColor.titleTextColor, isPrimaryCard: isPrimaryCard),
-                )
-              ],
-            ),
-          ),
-        ));
-  }
-
-
-/* This function indicates the Card Details */
-  Widget detailsOfCard(String textOne,
-      Color textColor, {bool isPrimaryCard = false}) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 5),
-            width: width * .45,
-            alignment: Alignment.center,
-            child: Text(
-              textOne,
-              style: TextStyle(
-                  height: -60,
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: isPrimaryCard ? Colors.yellow : textColor),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 7),
-            width: width * .50,
-            height: 20,
-            alignment: Alignment.topCenter,
-
-
-          ),
-          SizedBox(height: 10),
-        ],
-      ),
-    );
-  }
-
-
-
-/* This function used for decorate the LecturerCard */
-  Widget decorationOfUserCard(Color primary, double top, double left) {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: -65,
-          left: -55,
-          child: CircleAvatar(
-            radius: 100,
-            backgroundColor: Colors.white.withAlpha(100),
-          ),
-        ),
-      ],
-    );
-  }
-
+  File userProfilePic;
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    return Scaffold(
-        body: SingleChildScrollView(
-            child: FadeAnimation(1, Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('Assets/white.jpg'),
-                      fit: BoxFit.fill,
-                      alignment: Alignment.topCenter
-                  )
+    Future getImage() async {
+      var userImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+      setState(() {
+        userProfilePic = userImage;
+        print('Image Path $userProfilePic');
+      });
+    }
+
+    Future uploadPic(BuildContext context) async{
+      String fileName = basename(userProfilePic.path);
+      StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+      StorageUploadTask uploadTask = firebaseStorageRef.putFile(userProfilePic);
+      StorageTaskSnapshot taskSnapshot=await uploadTask.onComplete;
+      setState(() {
+        print("User Profile Picture uploaded");
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture Uploaded')));
+      });
+    }
+
+
+
+
+    return new Scaffold(
+      body: StreamBuilder(
+        stream: Firestore.instance.collection('users').snapshots(),
+        builder:(context,snapshot)=> FadeAnimation(1, Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('Assets/white.jpg'),
+                  fit: BoxFit.fitHeight,
+                  alignment: Alignment.center
+              )
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              HeaderDesign(context),
+              SizedBox(
+                height: 30.0,
               ),
-              child: Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  HeaderDesign(context),
-                  UserRow(),
-                  displayUserInformation(),
+                  Align(
+                    alignment: Alignment.center,
+                    child: CircleAvatar(
+                      radius: 100,
+                      backgroundColor: Color(0xffeeeeee),
+                      child: ClipOval(
+                        child: new SizedBox(
+                          width: 180.0,
+                          height: 180.0,
+                          child: (userProfilePic!=null)?Image.file(
+                            userProfilePic,
+                            fit: BoxFit.fill,
+                          ):Image.network(
+                            "https://img.pngio.com/registration-for-under-graduate-student-icon-png-free-student-icon-png-820_731.png",
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 60.0),
+                    child: IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.camera,
+                        size: 30.0,
+                      ),
+                      onPressed: () {
+                        getImage();
+                      },
+                    ),
+                  ),
                 ],
               ),
-            )
-            )
-        )
+              SizedBox(
+                height: 20.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child:Text("Full name :${snapshot.data.documents[2]['fullName']}",style: new TextStyle(fontSize: 20.0),),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
+//
+              Container(
+                margin: EdgeInsets.all(40.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text("E-mail :${snapshot.data.documents[2]['email']}",style: new TextStyle(fontSize: 20.0),),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  RaisedButton(
+                    color: Color(0xff476cfb),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    elevation: 4.0,
+                    splashColor: Colors.blueGrey,
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(color: Colors.white, fontSize: 16.0),
+                    ),
+                  ),
+                  RaisedButton(
+                    color: Color(0xff476cfb),
+                    onPressed: () {
+                      uploadPic(context);
+                    },
+
+                    elevation: 4.0,
+                    splashColor: Colors.blueGrey,
+                    child: Text(
+                      'Update Profile Picture',
+                      style: TextStyle(color: Colors.white, fontSize: 16.0),
+                    ),
+                  ),
+
+                ],
+              )
+            ],
+          ),
+        ),
+        ),
+        //appBar: HeaderCircleDesigner(20.0,),
+      ),
     );
   }
 
 }
 
 
+Widget HeaderDesign(BuildContext context) {
+  var width = MediaQuery
+      .of(context)
+      .size
+      .width;
+  return ClipRRect(
+    borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
+    child: Container(
+        height: 120,
+        width: width,
+        decoration: BoxDecoration(
+          color: Colors.pinkAccent,
+        ),
+        child: Stack(
+          fit: StackFit.expand,
+          alignment: Alignment.center,
+          children: <Widget>[
+            Positioned(
+                top: 10,
+                right: -120,
+                child: HeaderCircleDesigner(300, Colors.pink)),
+            Positioned(
+                top: -60,
+                left: -65,
+                child: HeaderCircleDesigner(width * .5, Colors.pink)),
+
+            Positioned(
+                top: 50,
+                left: 10,
+                child: Container(
+                    width: width,
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Stack(
+                      children: <Widget>[
+                        Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "User Profile",
+                              style: TextStyle(
+                                  color: Colors.yellow,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w500
+                              ),
+                            )
+                        )
+                      ],
+                    )
+                )
+            ),
+
+          ],
+        )),
+  );
+}
 
 
 
-
-
+Widget HeaderCircleDesigner(double height, Color color,
+    {Color borderColor = Colors.transparent, double borderWidth = 2}) {
+  return Container(
+    height: height,
+    width: height,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      color: color,
+      border: Border.all(color: borderColor, width: borderWidth),
+    ),
+  );
+}
 
 
 
