@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ctsefinalapp/models/notificationModel.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import  'services/notification_services.dart';
 import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ class notification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
       home: notificationPage(),
       debugShowCheckedModeBanner: false,
     );
@@ -108,7 +108,7 @@ class _notificationPageState extends State<notificationPage> {
                                                         color: Colors.redAccent
                                                     )
                                                 ),
-                                                labelText: 'Title Of the Message :',
+                                                labelText: 'Title :',
                                                 labelStyle: TextStyle(fontSize: 20,
                                                     color: Colors.black)
                                             ),
@@ -180,17 +180,6 @@ class _notificationPageState extends State<notificationPage> {
                       },
                     ),
 
-                    FlatButton.icon(
-                      icon: Icon(Icons.delete),
-                      label: Text('Delete'),
-                      color: Colors.orangeAccent,
-                      textColor: Colors.black,
-
-                      // Popup will be called by using showMobilePopup()
-                      onPressed: () {
-
-                      },
-                    ),
                   ],
                 ),
               )
@@ -223,29 +212,135 @@ class _notificationPageState extends State<notificationPage> {
 
 
   Widget NotificationitemList(BuildContext context, DocumentSnapshot data) {
+
     final notifications = notificationModel.fromSnapshot(data);
+    final NotificationKey = GlobalKey<FormState>();
+    String title = '';
+    String text = '';
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 5),
       child: Slidable.builder(
-        //delegate: SlidableStrechDelegate(),
+        actionPane: SlidableDrawerActionPane(),
         secondaryActionDelegate: new SlideActionBuilderDelegate(
-            actionCount: 4,
+            actionCount: 2,
             builder: (context, index, animation, renderingMode) {
+              if (index == 0) {
+                return new IconSlideAction(
+                  caption: 'Edit',
+                  color: Colors.blue,
+                  icon: Icons.edit,
+                   onTap: ()=>showMobilePopup(
+                  context: context,
+                  builder: (context) => MobilePopUp(
+                    title: 'Add Notification Details',
+                    child: Builder(
+                      builder: (navigator) => Scaffold(
+                        body: SingleChildScrollView(
+                          child: Form(
+                            key: NotificationKey,
+                            child: Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: TextFormField(
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                    validator: (value) => value.isEmpty ? 'Enter Title' : null,
+                                    onChanged: (value){
+                                      setState(() => title = value );
+                                    },
+                                    decoration: InputDecoration(
+                                        enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.redAccent
+                                            )
+                                        ),
+                                        labelText: 'Title :',
+                                        labelStyle: TextStyle(fontSize: 20,
+                                            color: Colors.black)
+                                    ),
+                                  ),
+                                ),
 
-              return new IconSlideAction(
-                caption: 'Delete',
-                closeOnTap: true,
-                color: Colors.red,
-                icon: Icons.delete,
-                onTap: () =>
-                    _buildConfirmationDialog(context, data.documentID),
-              );
+                                Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: TextFormField(
+                                    maxLines: 3,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                    validator: (value) => value.isEmpty ? 'Enter Message' : null,
+                                    onChanged: (value){
+                                      setState(() => text = value );
+                                    },
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: 'Message',
+                                        prefixIcon: Icon(Icons.notification_important),
+                                        labelStyle: TextStyle(
+                                            fontSize: 15
+                                        )
+                                    ),
+                                  ),
+                                ),
 
+                                Padding(
+                                  padding: EdgeInsets.all(30),
+                                  child: MaterialButton(
+                                    onPressed: () async {
+                                      if(NotificationKey.currentState.validate()) {
+                                        dynamic result = NotificationFireBaseAPIServices.updateNotification(data.documentID,title, text);
+                                        if (result == null) {
+                                          setState(() => 'Error');
+                                        }
+                                        else {
+                                          showToast();
+                                        }
+                                      }
+                                    },
+                                    child: Text('Update Notification ',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: 'SFUIDisplay',
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white
+                                      ),
+                                    ),
+                                    color: Color(0xffff2d55),
+                                    elevation: 0,
+                                    minWidth: 350,
+                                    height: 60,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(50)
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ));
+              }else {
+                return new IconSlideAction(
+                  caption: 'Delete',
+                  closeOnTap: true,
+                  color: Colors.red,
+                  icon: Icons.delete,
+                  onTap: () =>
+                      ConfirmationDialog(context, data.documentID),
+                );
+              }
             }),
 
         key: Key(notifications.title),
         child: ListTile(
           title: Text(notifications.title),
+          subtitle: Text(notifications.text),
           onTap: () => print(notifications),
         ),
       ),
@@ -254,9 +349,9 @@ class _notificationPageState extends State<notificationPage> {
 
   }
 
-  Future<bool> _buildConfirmationDialog(
+  Future<bool> ConfirmationDialog(
       BuildContext context, String documentID) {
-    return showDialog<bool>(
+      return showDialog<bool>(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -302,11 +397,11 @@ class _notificationPageState extends State<notificationPage> {
               Positioned(
                   top: 10,
                   right: -120,
-                  child: _circularContainer(300, LightColor.lightOrange2)),
+                  child: circleContainer(300, LightColor.lightOrange2)),
               Positioned(
                   top: -60,
                   left: -65,
-                  child: _circularContainer(width * .5, LightColor.darkOrange)),
+                  child: circleContainer(width * .5, LightColor.darkOrange)),
               Positioned(
                   top: 50,
                   left: 0,
@@ -331,7 +426,7 @@ class _notificationPageState extends State<notificationPage> {
     );
   }
 
-  Widget _circularContainer(double height, Color color,
+  Widget circleContainer(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
       height: height,
@@ -341,6 +436,18 @@ class _notificationPageState extends State<notificationPage> {
         color: color,
         border: Border.all(color: borderColor, width: borderWidth),
       ),
+    );
+  }
+
+  //Toast Function Implementation
+  void showToast() {
+    Fluttertoast.showToast(
+        msg: 'Updated Successfully ',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 2,
+        backgroundColor: Colors.pinkAccent,
+        textColor: Colors.white
     );
   }
 

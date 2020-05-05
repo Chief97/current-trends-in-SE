@@ -349,8 +349,6 @@ void initState(){
                   child: Column(
                     children: <Widget>[
                       HeaderDesign(context),
-//                      Rows(""),
-
                       DisplayLectures(context),
 
                   //Added Add Icon Button

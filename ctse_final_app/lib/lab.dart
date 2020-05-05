@@ -123,7 +123,7 @@ class _LabState extends State<lab> {
                           Align(
                               alignment: Alignment.center,
                               child: Text(
-                                "Lectures",
+                                "Labs",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 30,
@@ -258,7 +258,7 @@ class _LabState extends State<lab> {
         ));
   }
 
-  Widget DisplayLectures(BuildContext context) {
+  Widget DisplayLabs(BuildContext context) {
     return StreamBuilder(
       stream: _labs,
       builder: (context, snapshot) {
@@ -367,7 +367,7 @@ class _LabState extends State<lab> {
                       HeaderDesign(context),
 //                      Rows(""),
 
-                      DisplayLectures(context),
+                      DisplayLabs(context),
 
                       //Added Add Icon Button
                       FlatButton.icon(

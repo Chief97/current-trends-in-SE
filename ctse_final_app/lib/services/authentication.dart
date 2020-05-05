@@ -13,6 +13,16 @@ class AuthenticationService {
     return user != null ? User(uid: user.uid) : null;
   }
 
+  // GET UID
+  Future<String> getCurrentUID() async {
+    return (await _auth.currentUser()).uid;
+  }
+
+  // GET CURRENT USER
+  Future getCurrentUser() async {
+    return await _auth.currentUser();
+  }
+
   //auth change user stream
   Stream<User> get user{
     return _auth.onAuthStateChanged

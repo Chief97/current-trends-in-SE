@@ -6,15 +6,22 @@ class notificationModel {
   final DocumentReference reference;
 
   //notificationModel( {this.title,this.text});
+
   notificationModel.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['text'] != null),
-        title=map['text'],
+      : assert(map['title'] != null),assert(map['text'] != null),
+        title=map['title'],
         text = map['text'];
 
-  notificationModel.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
+//  notificationModel.fromMap(Map<String, dynamic> map, )
+//      : assert(map['title'] != null),assert(map['text'] != null),
+//        title=map['text'],
+//        text = map['text'];
 
-  @override
-  String toString() => text;
-  String toStrings() => title;
+  notificationModel.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data);
+
+
+//  @override
+//  String toString() => title,text;
+  //String toStrings() => title;
 }
