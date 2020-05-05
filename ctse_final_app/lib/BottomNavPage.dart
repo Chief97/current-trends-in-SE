@@ -3,9 +3,8 @@ import 'package:ctsefinalapp/lecture.dart';
 import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:ctsefinalapp/user.dart';
 import 'package:flutter/material.dart';
-
+import 'NotificationItemList.dart';
 import 'lab.dart';
-import 'notification.dart';
 
 
 
