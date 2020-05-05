@@ -1,7 +1,6 @@
 import 'package:ctsefinalapp/homepage.dart';
 import 'package:ctsefinalapp/lecture.dart';
 import 'package:ctsefinalapp/theme/color/light_color.dart';
-import 'package:ctsefinalapp/userCheck.dart';
 import 'package:flutter/material.dart';
 import 'user.dart';
 import 'NotificationItemList.dart';

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:ctsefinalapp/services/firebase_service.dart';
 import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:file_picker/file_picker.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'Animation/Fade_Animation.dart';
-import 'courseModel.dart';
 import 'package:mobile_popup/mobile_popup.dart';
 
 import 'models/lectureModel.dart';
@@ -176,83 +174,8 @@ class _LabState extends State<lab> {
     );
   }
 
-  Widget CourseListDetails() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            CourseInfomation(CourseList.list[0]),
-            Divider(
-              thickness: 1,
-              endIndent: 20,
-              indent: 20,
-            ),
-            CourseInfomation(CourseList.list[1]),
-            Divider(
-              thickness: 1,
-              endIndent: 20,
-              indent: 20,
-            ),
-            CourseInfomation(CourseList.list[2]),
-            Divider(
-              thickness: 1,
-              endIndent: 20,
-              indent: 20,
-            ),
-            CourseInfomation(CourseList.list[3]),
-            Divider(
-              thickness: 1,
-              endIndent: 20,
-              indent: 20,
-            ),
-            CourseInfomation(CourseList.list[4]),
-          ],
-        ),
-      ),
-    );
-  }
 
-  Widget CourseInfomation(CourseModel model) {
-    return Container(
-        height: 170,
-        width: width - 20,
-        child: Row(
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: .7,
-            ),
-            Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 15),
-                    Container(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(model.title,
-                                style: TextStyle(
-                                    color: LightColor.purple,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
-                          ),
-                          CircleAvatar(
-                            radius: 3,
-                            //backgroundColor: background,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                        ],
-                      ),)
-                  ],
-                ))
-          ],
-        ));
-  }
+
 
   Widget DisplayLabs(BuildContext context) {
     return StreamBuilder(
