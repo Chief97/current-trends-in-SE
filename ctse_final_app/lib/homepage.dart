@@ -80,20 +80,22 @@ class homePage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          SizedBox(height: 10),
+                          SizedBox(height: 80),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
+                              Text(
+                                "CTSE Home",
+                                style: TextStyle(
+                                    color: Colors.white54,
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                              )
                             ],
                           ),
-                          SizedBox(height: 50),
-                          Text(
-                            "CTSE Home",
-                            style: TextStyle(
-                                color: Colors.white54,
-                                fontSize: 40,
-                                fontWeight: FontWeight.w500),
-                          )
+
+
                         ],
                       )))
             ],

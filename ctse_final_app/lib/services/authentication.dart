@@ -18,10 +18,23 @@ class AuthenticationService {
     return (await _auth.currentUser()).uid;
   }
 
-  // GET CURRENT USER
-  Future getCurrentUser() async {
-    return await _auth.currentUser();
+//  // GET CURRENT USER
+//  Future getCurrentUser() async {
+//    return await _auth.currentUser();
+//  }
+
+
+     getCurrentUser() async {
+    final FirebaseUser user = await _auth.currentUser();
+    String uid = user.uid;
+    // Similarly we can get email as well
+    final uemail = user.email;
+    return uid;
+    print(uid);
+    print(uemail);
   }
+
+
 
   //auth change user stream
   Stream<User> get user{

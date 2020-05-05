@@ -83,7 +83,7 @@ void initState(){
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
       child: Container(
-          height: 120,
+          height: 180,
           width: width,
           decoration: BoxDecoration(
             color: LightColor.yellow,
@@ -95,15 +95,11 @@ void initState(){
               Positioned(
                   top: 10,
                   right: -120,
-                  child: HeaderCircleDesigner(100, LightColor.darkOrange)),
+                  child: HeaderCircleDesigner(300, Colors.orangeAccent)),
               Positioned(
                   top: -60,
                   left: -65,
-                  child: HeaderCircleDesigner(width * .5, LightColor.lightOrange2)),
-              Positioned(
-                  top: -230,
-                  right: -30,
-                  child: HeaderCircleDesigner(width * .7, Colors.transparent, borderColor: Colors.white38)),
+                  child: HeaderCircleDesigner(width * .5, Colors.orangeAccent)),
               Positioned(
                   top: 50,
                   left: 0,

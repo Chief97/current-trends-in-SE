@@ -385,7 +385,7 @@ class _notificationPageState extends State<notificationPage> {
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
       child: Container(
-          height: 120,
+          height: 180,
           width: width,
           decoration: BoxDecoration(
             color: LightColor.orange,
