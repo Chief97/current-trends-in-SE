@@ -225,7 +225,7 @@ class NotificationPageState extends State<NotificationPage> {
                    onTap: ()=>showMobilePopup(
                   context: context,
                   builder: (context) => MobilePopUp(
-                    title: 'Add Notification Details',
+                    title: 'Update Notification ',
                     child: Builder(
                       builder: (navigator) => Scaffold(
                         body: SingleChildScrollView(
