@@ -2,6 +2,8 @@ import 'package:ctsefinalapp/services/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'Animation/Fade_Animation.dart';
+
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
@@ -210,7 +212,7 @@ class _SignUpState extends State<SignUp> {
     return ClipRRect(
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(70), bottomRight: Radius.circular(80)),
-      child: Container(
+      child: FadeAnimation(1,Container(
           height: 180,
           width: width,
           decoration: BoxDecoration(
@@ -245,11 +247,13 @@ class _SignUpState extends State<SignUp> {
                           )
                         ],
                       )
-                  )
+                  ),
+
               ),
 
             ],
           )),
+      ),
     );
   }
 

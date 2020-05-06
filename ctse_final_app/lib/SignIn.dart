@@ -1,3 +1,4 @@
+import 'package:ctsefinalapp/Animation/Fade_Animation.dart';
 import 'package:ctsefinalapp/SignUp.dart';
 import 'package:ctsefinalapp/services/authentication.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class loginState extends State<login> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-       Container(
+       FadeAnimation(1,Container(
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('Assets/Image.png'),
@@ -46,7 +47,8 @@ class loginState extends State<login> {
               )
           ),
         ),
-        Container(
+       ),
+        FadeAnimation(1,Container(
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(top: 100),
           decoration: BoxDecoration(
@@ -160,13 +162,13 @@ class loginState extends State<login> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.only(top: 30),
                   child: Center(
-                    child: Text('Dont You Have an Account?',
+                    child: Text("Don't have an account?",
                       style: TextStyle(
                           fontFamily: 'SFUIDisplay',
                           fontSize: 15,
-                          fontWeight: FontWeight.bold
+                          fontStyle: FontStyle.italic
                       ),
                     ),
                   ),
@@ -199,7 +201,8 @@ class loginState extends State<login> {
               ],
             ),
           ),
-        )
+        ),
+        ),
       ],
     );
   }
