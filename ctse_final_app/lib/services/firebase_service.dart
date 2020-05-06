@@ -25,7 +25,7 @@ class FirestoreService {
   StorageUploadTask _uploadTask;
   StorageReference _fileRef;
   String _downloadURL;
-
+  String _dateTimeNow;
 
   Future addUsers(UserProfile user) async {
     return await _usersCollectionReference.document(userId).setData({
@@ -47,25 +47,27 @@ class FirestoreService {
   }
 
   Future uploadFile(LectureModel lecture,String type, File tempFile) async {
+    _dateTimeNow = DateTime.now().toString();
     if(type == _type) {
-      _document = await _lecturesCollectionReference.add({
+      await _lecturesCollectionReference.document(_dateTimeNow).setData({
+        'id' : _dateTimeNow,
         'week': lecture.week,
         'title': lecture.title,
         'lecturerName': lecture.lecturerName,
       });
 
-      await _lecturesCollectionReference.document(_document.documentID).updateData({'id':_document.documentID});
+      //await _lecturesCollectionReference.document(_document.documentID).updateData({'id':_document.documentID});
     }else{
-        _document = await _labCollectionReference.add({
+        await _labCollectionReference.document(_dateTimeNow).setData({
+          'id' : _dateTimeNow,
           'week': lecture.week,
           'title': lecture.title,
           'lecturerName': lecture.lecturerName,
         });
-        await _labCollectionReference.document(_document.documentID).updateData({'id':_document.documentID});
+//        await _labCollectionReference.document(_document.documentID).updateData({'id':_document.documentID});
     }
-//    _fileRef = ;
 
-     _uploadTask = _storageRef.child(type+'/'+_document.documentID).putFile(tempFile);
+     _uploadTask = _storageRef.child(type+'/'+_dateTimeNow).putFile(tempFile);
      return _uploadTask.isComplete;
 //    if(_uploadTask.isComplete){
 //      return downloadFile(type, _document.documentID);
