@@ -1,7 +1,7 @@
 import 'package:ctsefinalapp/models/lectureModel.dart';
 import 'package:ctsefinalapp/services/authentication.dart';
 import 'package:ctsefinalapp/services/firebase_service.dart';
-import 'package:ctsefinalapp/theme/color/light_color.dart';
+import 'package:ctsefinalapp/Color/light_color.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

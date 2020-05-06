@@ -1,5 +1,5 @@
 import 'package:ctsefinalapp/services/authentication.dart';
-import 'package:ctsefinalapp/theme/color/light_color.dart';
+import 'package:ctsefinalapp/Color/light_color.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'Animation/Fade_Animation.dart';

@@ -3,7 +3,7 @@ import 'package:ctsefinalapp/models/notificationModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'services/notification_services.dart';
-import 'package:ctsefinalapp/theme/color/light_color.dart';
+import 'package:ctsefinalapp/Color/light_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mobile_popup/mobile_popup.dart';

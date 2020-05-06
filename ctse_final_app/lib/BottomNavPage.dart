@@ -1,4 +1,4 @@
-import 'package:ctsefinalapp/theme/color/light_color.dart';
+import 'package:ctsefinalapp/Color/light_color.dart';
 import 'package:flutter/material.dart';
 import 'homepage.dart';
 import 'lecture.dart';
