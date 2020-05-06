@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ctsefinalapp/models/notificationModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'services/notification_services.dart';
 import 'package:ctsefinalapp/theme/color/light_color.dart';
@@ -64,17 +65,17 @@ class NotificationPageState extends State<NotificationPage> {
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Text(
                         "  There are ${snapshot.data.documents.length.toString()} Notification",
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,fontStyle:FontStyle.italic ,color: Colors.black)
                       ),
                     ),
                     notificationList(context, snapshot.data.documents),
                     SizedBox(height: 10),
 
-                    FlatButton.icon(
-                      icon: Icon(Icons.add),
-                      label: Text('Add'),
+                    IconButton(
+                      icon: Icon(Icons.add_circle),
                       color: Colors.orangeAccent,
-                      textColor: Colors.black,
+                      iconSize: 60,
+                      focusColor: Colors.redAccent,
 
                       // Popup will be called by using showMobilePopup()
                       onPressed: () {
@@ -106,7 +107,7 @@ class NotificationPageState extends State<NotificationPage> {
                                                 ),
                                                 labelText: 'Title :',
                                                 labelStyle: TextStyle(fontSize: 20,
-                                                    color: Colors.black)
+                                                    color: Colors.black,)
                                             ),
                                           ),
                                         ),
@@ -332,7 +333,12 @@ class NotificationPageState extends State<NotificationPage> {
 
         key: Key(notifications.title),
         child: ListTile(
-          title: Text(notifications.title),
+          title: Text(notifications.title,style: TextStyle(
+              fontSize: 15,
+              fontFamily: 'SFUIDisplay',
+              fontWeight: FontWeight.bold,
+              color: Colors.red
+          ),),
           subtitle: Text(notifications.text),
           onTap: () => print(notifications),
         ),

@@ -270,13 +270,14 @@ void initState(){
                     children: <Widget>[
                       headerDesign(context),
                       DisplayLectures(context),
-
+                     SizedBox(height: 40.0,),
                   //Added Add Icon Button
-                      FlatButton.icon(
-                        icon: Icon(Icons.add),
-                        label: Text('Add'),
-                        color: Colors.yellow,
-                        textColor: Colors.black,
+                      IconButton(
+                        icon: Icon(Icons.add_circle),
+                        color: Colors.orangeAccent,
+                        iconSize: 60,
+                        alignment: Alignment.topCenter,
+                        focusColor: Colors.redAccent,
 
                     // Popup will be called by using showMobilePopup()
                         onPressed: () {
