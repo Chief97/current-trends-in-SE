@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ctsefinalapp/models/notificationModel.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import  'services/notification_services.dart';
+import 'services/notification_services.dart';
 import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -10,49 +10,46 @@ import 'package:mobile_popup/pop_up.dart';
 import 'Animation/Fade_Animation.dart';
 
 
-class notification extends StatelessWidget {
+class NotificationList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: notificationPage(),
+      home: NotificationPage(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class notificationPage extends StatefulWidget {
+class NotificationPage extends StatefulWidget {
   @override
-  _notificationPageState createState() => _notificationPageState();
-
-
+  NotificationPageState createState() => NotificationPageState();
 }
 
-class _notificationPageState extends State<notificationPage> {
+
+class NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: SafeArea(child: _buildBody(context)),
-
+      body: SafeArea(child: buildBody(context)),
     );
   }
 
 
 
-  Widget _buildBody(BuildContext context) {
+  Widget buildBody(BuildContext context) {
 
-    final NotificationKey = GlobalKey<FormState>();
-    double width;
+    final notificationKey = GlobalKey<FormState>();
 
     //text field state
     String title = '';
     String text = '';
     String error = '';
-    HeaderDesign(context);
+
+    headerDesign(context);
     return StreamBuilder<QuerySnapshot>(
       stream: NotificationFireBaseAPIServices.NotificationStream,
       builder: (context, snapshot) {
-        HeaderDesign(context);
+        headerDesign(context);
         if (!snapshot.hasData) return LinearProgressIndicator();
         if (snapshot.data.documents.length > 0) {
           return SingleChildScrollView(
@@ -62,7 +59,7 @@ class _notificationPageState extends State<notificationPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    HeaderDesign(context),
+                    headerDesign(context),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Text(
@@ -70,7 +67,7 @@ class _notificationPageState extends State<notificationPage> {
                         style: TextStyle(fontSize: 16),
                       ),
                     ),
-                    NotificationList(context, snapshot.data.documents),
+                    notificationList(context, snapshot.data.documents),
                     SizedBox(height: 10),
 
                     FlatButton.icon(
@@ -88,8 +85,7 @@ class _notificationPageState extends State<notificationPage> {
                             child: Builder(
                               builder: (navigator) => Scaffold(
                                 body: SingleChildScrollView(
-                                  child: Form(
-                                    key: NotificationKey,
+                                  child: Form(key: notificationKey,
                                     child: Column(
                                       children: <Widget>[
                                         Padding(
@@ -141,7 +137,7 @@ class _notificationPageState extends State<notificationPage> {
                                           padding: EdgeInsets.all(30),
                                           child: MaterialButton(
                                             onPressed: () async {
-                                              if(NotificationKey.currentState.validate()) {
+                                              if(notificationKey.currentState.validate()) {
                                                 dynamic result = NotificationFireBaseAPIServices.addNotification(title, text);
                                                 if (result == null) {
                                                   setState(() => error ='Error');
@@ -179,7 +175,6 @@ class _notificationPageState extends State<notificationPage> {
                         );
                       },
                     ),
-
                   ],
                 ),
               )
@@ -197,24 +192,22 @@ class _notificationPageState extends State<notificationPage> {
     );
   }
 
-  Widget NotificationList(
-      BuildContext context, List<DocumentSnapshot> snapshot) {
-
+  //Design for Notification List
+  Widget notificationList(BuildContext context, List<DocumentSnapshot> snapshot) {
     return ListView(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       padding: const EdgeInsets.only(top: 20.0),
-      children: snapshot.map((data) => NotificationitemList(context, data)).toList(),
-
+      children: snapshot.map((data) => notificationItemList(context, data)).toList(),
     );
   }
 
 
-
-  Widget NotificationitemList(BuildContext context, DocumentSnapshot data) {
+//Design for Notification Item List
+  Widget notificationItemList(BuildContext context, DocumentSnapshot data) {
 
     final notifications = notificationModel.fromSnapshot(data);
-    final NotificationKey = GlobalKey<FormState>();
+    final notificationKey = GlobalKey<FormState>();
     String title = '';
     String text = '';
     return Card(
@@ -237,7 +230,7 @@ class _notificationPageState extends State<notificationPage> {
                       builder: (navigator) => Scaffold(
                         body: SingleChildScrollView(
                           child: Form(
-                            key: NotificationKey,
+                            key: notificationKey,
                             child: Column(
                               children: <Widget>[
                                 Padding(
@@ -289,7 +282,7 @@ class _notificationPageState extends State<notificationPage> {
                                   padding: EdgeInsets.all(30),
                                   child: MaterialButton(
                                     onPressed: () async {
-                                      if(NotificationKey.currentState.validate()) {
+                                      if(notificationKey.currentState.validate()) {
                                         dynamic result = NotificationFireBaseAPIServices.updateNotification(data.documentID,title, text);
                                         if (result == null) {
                                           setState(() => 'Error');
@@ -316,7 +309,6 @@ class _notificationPageState extends State<notificationPage> {
                                     ),
                                   ),
                                 ),
-
                               ],
                             ),
                           ),
@@ -332,10 +324,11 @@ class _notificationPageState extends State<notificationPage> {
                   color: Colors.red,
                   icon: Icons.delete,
                   onTap: () =>
-                      ConfirmationDialog(context, data.documentID),
+                      confirmationDialog(context, data.documentID),
                 );
               }
-            }),
+            }
+            ),
 
         key: Key(notifications.title),
         child: ListTile(
@@ -344,12 +337,11 @@ class _notificationPageState extends State<notificationPage> {
           onTap: () => print(notifications),
         ),
       ),
-
     );
-
   }
 
-  Future<bool> ConfirmationDialog(
+  //This function is Dialog for confirmation before Delete the Content
+  Future<bool> confirmationDialog(
       BuildContext context, String documentID) {
       return showDialog<bool>(
       context: context,
@@ -375,12 +367,9 @@ class _notificationPageState extends State<notificationPage> {
   }
 
 
-
-  Widget HeaderDesign(BuildContext context) {
-    var width = MediaQuery
-        .of(context)
-        .size
-        .width;
+//Design the Header
+  Widget headerDesign(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
     return ClipRRect(
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
@@ -397,11 +386,11 @@ class _notificationPageState extends State<notificationPage> {
               Positioned(
                   top: 10,
                   right: -120,
-                  child: circleContainer(300, LightColor.lightOrange2)),
+                  child: headerCircleDesigner(300, LightColor.lightOrange2)),
               Positioned(
                   top: -60,
                   left: -65,
-                  child: circleContainer(width * .5, LightColor.darkOrange)),
+                  child: headerCircleDesigner(width * .5, LightColor.darkOrange)),
               Positioned(
                   top: 50,
                   left: 0,
@@ -418,15 +407,20 @@ class _notificationPageState extends State<notificationPage> {
                                     color: Colors.white,
                                     fontSize: 30,
                                     fontWeight: FontWeight.w500),
-                              ))
+                              )
+                          )
                         ],
-                      ))),
+                      )
+                  )
+              ),
             ],
-          )),
+          )
+      ),
     );
   }
 
-  Widget circleContainer(double height, Color color,
+  //header Circle Design
+  Widget headerCircleDesigner(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
       height: height,
@@ -450,8 +444,4 @@ class _notificationPageState extends State<notificationPage> {
         textColor: Colors.white
     );
   }
-
-
-
-
 }

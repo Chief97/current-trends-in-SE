@@ -50,7 +50,7 @@ class _SignUpState extends State<SignUp> {
                   key: _key,
                   child: Column(
                     children: <Widget>[
-                      HeaderDesign(context),
+                      headerDesign(context),
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
                         child: TextFormField(
@@ -203,7 +203,8 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Widget HeaderDesign(BuildContext context) {
+  //Design for Header
+  Widget headerDesign(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -222,11 +223,11 @@ class _SignUpState extends State<SignUp> {
               Positioned(
                   top: 50,
                   right: -150,
-                  child: HeaderCircleDesigner(250, Colors.pink)),
+                  child: headerCircleDesigner(250, Colors.pink)),
               Positioned(
                   top: -20,
                   left: -65,
-                  child: HeaderCircleDesigner(width * .4, Colors.pinkAccent)),
+                  child: headerCircleDesigner(width * .4, Colors.pinkAccent)),
               Positioned(
                   top: 50,
                   left: 10,
@@ -256,8 +257,8 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-
-  Widget HeaderCircleDesigner(double height, Color color,
+//Design for Header
+  Widget headerCircleDesigner(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
       height: height,

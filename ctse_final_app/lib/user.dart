@@ -6,12 +6,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'Animation/Fade_Animation.dart';
-import 'models/userModel.dart';
 import 'dart:io';
 
 
 
-class userPage extends StatelessWidget{
+class User extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -24,28 +23,30 @@ class userPage extends StatelessWidget{
 
 class UserPage extends StatefulWidget{
   @override
-  _UserPageState createState() => new _UserPageState();
+  UserPageState createState() => new UserPageState();
 
 }
 
-class _UserPageState extends State<UserPage>{
-  User up=new User();
-  //var user=int.parse(up.uid);
+class UserPageState extends State<UserPage>{
   AuthenticationService auth;
 
+
+  //initialize the file
   File userProfilePic;
 
   @override
   Widget build(BuildContext context) {
-    Future getImage() async {
-      var userImage = await ImagePicker.pickImage(source: ImageSource.gallery);
 
+    //This method implemented for pick profile picture from phone Gallery
+    Future getUserProfilePic() async {
+      var userImage = await ImagePicker.pickImage(source: ImageSource.gallery);
       setState(() {
         userProfilePic = userImage;
-        print('Image Path $userProfilePic');
+        print('Profile Pic Path : $userProfilePic');
       });
     }
 
+    //This method implemented for upload profile picture
     Future uploadPic(BuildContext context) async{
       String fileName = basename(userProfilePic.path);
       StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
@@ -53,13 +54,12 @@ class _UserPageState extends State<UserPage>{
       StorageTaskSnapshot taskSnapshot=await uploadTask.onComplete;
       setState(() {
         print("User Profile Picture uploaded");
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture Uploaded')));
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text('User Profile Picture Uploaded')));
       });
     }
 
 
     return new Scaffold(
-
         body: SingleChildScrollView(
          child: FadeAnimation(1, Container(
           decoration: BoxDecoration(
@@ -68,17 +68,19 @@ class _UserPageState extends State<UserPage>{
               fit: BoxFit.fitHeight,
               alignment: Alignment.center
           )
-      ),
+          ),
 
-         child: Column(
+           child: Column(
              children: <Widget>[
-             HeaderDesign(context),
-//
+             headerDesign(context),
+
                Row(
                  mainAxisAlignment: MainAxisAlignment.center,
                  children: <Widget>[
                    Align(
                      alignment: Alignment.center,
+
+                     //Design Profile Picture
                      child: CircleAvatar(
                        radius: 80,
                        backgroundColor: Color(0xffeeeeee),
@@ -97,6 +99,8 @@ class _UserPageState extends State<UserPage>{
                        ),
                      ),
                    ),
+
+                   /* camera Icon*/
                    Padding(
                      padding: EdgeInsets.only(top: 60.0),
                      child: IconButton(
@@ -105,25 +109,26 @@ class _UserPageState extends State<UserPage>{
                          size: 30.0,
                        ),
                        onPressed: () {
-                         getImage();
+                         getUserProfilePic();
                        },
                      ),
                    ),
                  ],
 
                ),
-//                 SizedBox(height: 20.0),
-           Row(
-             mainAxisAlignment: MainAxisAlignment.center,
-             children: <Widget>[
+
+             /* Display User Email */
+             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                Align(
                  alignment: Alignment.center,
                  child:FutureBuilder<FirebaseUser>(
                      future: FirebaseAuth.instance.currentUser(),
                      builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
                        if (snapshot.connectionState == ConnectionState.done) {
-                         return new Text (
-                           "User :\t ${snapshot.data.email} \n ",style: TextStyle(
+                         return new Text ("User :\t ${snapshot.data.email} \n ",style:
+                             TextStyle(
                              color: Colors.black,
                              fontFamily: 'SFUIDisplay',
                              fontSize: 20.0
@@ -138,56 +143,50 @@ class _UserPageState extends State<UserPage>{
                ),
              ],
            ),
-               Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                 children: <Widget>[
-                   Align(
-                     alignment: Alignment.center,
-                     child: Text("Module : CTSE \n",style: TextStyle(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                       children: <Widget>[
+                      Align(
+                        alignment: Alignment.center,
+                         child: Text("Module : CTSE \n",style: TextStyle(
                          color: Colors.black,
                          fontFamily: 'SFUIDisplay',
                          fontSize: 20.0
-                     ),),
-
+                       ),
+                     ),
                    ),
-           ],
-         ),
+                ],
+              ),
                    Row(
                      mainAxisAlignment: MainAxisAlignment.center,
                      children: <Widget>[
                        RaisedButton(
-                     color: Color(0xff476cfb),
-                     onPressed: () {
-                       uploadPic(context);
-                     },
-                     elevation: 4.0,
-                     splashColor: Colors.blueGrey,
-                     child: Text(
-                       'Upload Dp',
-                       style: TextStyle(color: Colors.white, fontSize: 16.0),
-                     ),
-                   ),
-
-                  ],
+                         color: Color(0xff476cfb),
+                          onPressed: () {
+                           uploadPic(context);
+                         },
+                         elevation: 4.0,
+                         splashColor: Colors.blueGrey,
+                         child: Text(
+                           'Upload Dp',
+                            style: TextStyle(color: Colors.white, fontSize: 16.0),
+                         ),
+                       ),
+                     ],
                    ),
                  ],
                ),
-
-
+             ),
            )
-         ,
-      )
-    )
+         )
+       );
+     }
+   }
 
 
-    );}}
-
-Widget HeaderDesign(BuildContext context) {
-  var width = MediaQuery
-      .of(context)
-      .size
-      .width;
-
+//Design for Header
+Widget headerDesign(BuildContext context) {
+  var width = MediaQuery.of(context).size.width;
   return ClipRRect(
     borderRadius: BorderRadius.only(
         bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
@@ -204,13 +203,12 @@ Widget HeaderDesign(BuildContext context) {
             Positioned(
                 bottom: 10,
                 right: -60,
-                child: HeaderCircleDesign(150, Colors.pinkAccent,borderColor: Colors.white38)
+                child: headerCircleDesign(150, Colors.pinkAccent,borderColor: Colors.white38)
             ),
-
             Positioned(
                 top: -40,
                 left: -45,
-                child: HeaderCircleDesign(width * .5, Colors.pinkAccent,borderColor: Colors.white38)),
+                child: headerCircleDesign(width * .5, Colors.pinkAccent,borderColor: Colors.white38)),
             Positioned(
                 top: 50,
                 left: 0,
@@ -236,7 +234,9 @@ Widget HeaderDesign(BuildContext context) {
                           ),
                         ),
                       ],
-                    ))),
+                    )
+                )
+            ),
 
             Positioned(
                 top: 40,
@@ -263,15 +263,14 @@ Widget HeaderDesign(BuildContext context) {
                                   color: Colors.white54,
                                   fontSize: 40,
                                   fontWeight: FontWeight.w500),
-                              textAlign: TextAlign.center,
+                                  textAlign: TextAlign.center,
                             )
                           ],
                         ),
-
-
                       ],
-                    ))),
-
+                    )
+                )
+            ),
           ],
         )
     ),
@@ -279,7 +278,7 @@ Widget HeaderDesign(BuildContext context) {
 }
 
 //This is for Header Circle Design Function
-Widget HeaderCircleDesign(double height, Color color,
+Widget headerCircleDesign(double height, Color color,
     {Color borderColor = Colors.transparent, double borderWidth = 2}) {
   return Container(
     height: height,

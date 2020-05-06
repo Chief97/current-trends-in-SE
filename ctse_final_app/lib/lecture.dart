@@ -76,7 +76,8 @@ void initState(){
   super.initState();
 }
 
-  Widget HeaderDesign(BuildContext context) {
+//Design for Header
+  Widget headerDesign(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -94,11 +95,11 @@ void initState(){
               Positioned(
                   top: 10,
                   right: -120,
-                  child: HeaderCircleDesigner(300, Colors.orangeAccent)),
+                  child: headerCircleDesigner(300, Colors.orangeAccent)),
               Positioned(
                   top: -60,
                   left: -65,
-                  child: HeaderCircleDesigner(width * .5, Colors.orangeAccent)),
+                  child: headerCircleDesigner(width * .5, Colors.orangeAccent)),
               Positioned(
                   top: 50,
                   left: 0,
@@ -123,7 +124,8 @@ void initState(){
     );
   }
 
-  Widget HeaderCircleDesigner(double height, Color color,
+  //Design for Header
+  Widget headerCircleDesigner(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
       height: height,
@@ -266,7 +268,7 @@ void initState(){
                   ),
                   child: Column(
                     children: <Widget>[
-                      HeaderDesign(context),
+                      headerDesign(context),
                       DisplayLectures(context),
 
                   //Added Add Icon Button

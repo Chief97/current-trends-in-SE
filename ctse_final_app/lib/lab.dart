@@ -100,11 +100,11 @@ class _LabState extends State<lab> {
               Positioned(
                   top: 10,
                   right: -120,
-                  child: HeaderCircleDesigner(300, Colors.orangeAccent)),
+                  child: headerCircleDesigner(300, Colors.orangeAccent)),
               Positioned(
                   top: -60,
                   left: -65,
-                  child: HeaderCircleDesigner(width * .5, Colors.orangeAccent)),
+                  child: headerCircleDesigner(width * .5, Colors.orangeAccent)),
 
               Positioned(
                   top: 50,
@@ -130,7 +130,7 @@ class _LabState extends State<lab> {
     );
   }
 
-  Widget HeaderCircleDesigner(double height, Color color,
+  Widget headerCircleDesigner(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
       height: height,

@@ -7,10 +7,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 // ignore: camel_case_types
 class login extends StatefulWidget {
   @override
-  _loginState createState() => _loginState();
+  loginState createState() => loginState();
 }
 
-class _loginState extends State<login> {
+class loginState extends State<login> {
 
   final AuthenticationService _auth = AuthenticationService();
 
@@ -51,8 +51,6 @@ class _loginState extends State<login> {
           margin: EdgeInsets.only(top: 100),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            //image: DecorationImage(image: AssetImage('Assets/bg13.jpg'),fit: BoxFit.cover),
-            // color: Colors.amberAccent,
           ),
           child: Padding(
             padding: EdgeInsets.all(30),
@@ -161,34 +159,6 @@ class _loginState extends State<login> {
                     ),
                   ),
                 ),
-
-//                Padding(
-//                  padding: EdgeInsets.only(top: 20),
-//                  child: MaterialButton(
-//
-//                    onPressed: (){
-//                      Navigator.push(
-//                        context,
-//                        MaterialPageRoute(builder: (context) => SignUp()),
-//                      );},
-//                    //since this is only a UI app
-//                    child: Text('Login with Courseweb',
-//                      style: TextStyle(
-//                        fontSize: 15,
-//                        fontFamily: 'SFUIDisplay',
-//                        fontWeight: FontWeight.bold,
-//                      ),
-//                    ),
-//                    color: Color(0xfff9a825),
-//                    elevation: 0,
-//                    minWidth: 400,
-//                    height: 50,
-//                    textColor: Colors.white,
-//                    shape: RoundedRectangleBorder(
-//                        borderRadius: BorderRadius.circular(50)
-//                    ),
-//                  ),
-//                ),
                 Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: Center(

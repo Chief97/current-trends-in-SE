@@ -8,21 +8,21 @@ import 'lab.dart';
 
 
 
-class BottomNavPage extends StatefulWidget {
+class BottomNavigationPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MyAppState();
+    return BottomNavigationPageState();
   }
 }
-class MyAppState extends State<BottomNavPage> {
-  int _selectedTab = 0;
+class BottomNavigationPageState extends State<BottomNavigationPage> {
+  int numberOfTab = 0;
   // Navigation pages
-  final _pageOptions = [
+  final navigationTabOptions = [
     homePage(),
     Lecture(),
     lab(),
-    notification(),
-    userPage(),
+    NotificationList(),
+    User(),
   ];
 
 
@@ -37,13 +37,13 @@ class MyAppState extends State<BottomNavPage> {
           )),
       home: Scaffold(
 
-        body: _pageOptions[_selectedTab],
+        body: navigationTabOptions[numberOfTab],
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.deepPurple,
-          currentIndex: _selectedTab,
-          onTap: (int index) {
+          currentIndex: numberOfTab,
+          onTap: (int noOfTab) {
             setState(() {
-              _selectedTab = index;
+              numberOfTab = noOfTab;
             });
           },
 

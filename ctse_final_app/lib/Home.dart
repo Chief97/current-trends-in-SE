@@ -20,7 +20,7 @@ class Home extends StatelessWidget {
     }else{
       return Container(
         child: Scaffold(
-          body: BottomNavPage(),
+          body: BottomNavigationPage(),
         )
       );
     }

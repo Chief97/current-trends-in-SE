@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
+//create Notification Services
 class NotificationFireBaseAPIServices {
   static Stream<QuerySnapshot> NotificationStream =
   Firestore.instance.collection('notification').snapshots();
 
+
+  //Created Colection for notification
   static CollectionReference reference =
   Firestore.instance.collection('notification');
 
+
+  //Add notification method
   static addNotification(String title,String text) {
     Firestore.instance.runTransaction((Transaction transaction) async {
       await reference.add({
@@ -17,6 +21,7 @@ class NotificationFireBaseAPIServices {
     });
   }
 
+  //Remove Notification By using ID
   static removeNotification(String id) {
     Firestore.instance.runTransaction((Transaction transaction) async {
       await reference.document(id).delete().catchError((error) {
@@ -25,11 +30,12 @@ class NotificationFireBaseAPIServices {
     });
   }
 
-  static updateNotification(String id, String newTitle,String Newtext) {
+  //Update Notification method
+  static updateNotification(String id, String newTitle,String newText) {
     Firestore.instance.runTransaction((Transaction transaction) async {
       await reference.document(id).updateData({
         "title":newTitle,
-        "text": Newtext,
+        "text": newText,
       }).catchError((error) {
         print(error);
       });
