@@ -34,23 +34,24 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black87,
         body: Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10000),
+            borderRadius: BorderRadius.circular(1000),
             color: Colors.transparent,
           ),
           child: Padding(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.only(top:5.0),
             child: ListView(
               children: <Widget>[
+                headerDesign(context),
                 SizedBox(height: 5,),
                 Form(
                   key: _key,
                   child: Column(
                     children: <Widget>[
-                      headerDesign(context),
+
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
                         child: TextFormField(
@@ -208,26 +209,21 @@ class _SignUpState extends State<SignUp> {
     var width = MediaQuery.of(context).size.width;
     return ClipRRect(
       borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
+          bottomLeft: Radius.circular(70), bottomRight: Radius.circular(80)),
       child: Container(
-          height: 150,
+          height: 180,
           width: width,
           decoration: BoxDecoration(
-            color: Colors.transparent,
+              image: DecorationImage(
+                  image: AssetImage('Assets/bg1.JPG'),
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center
+              )
           ),
           child: Stack(
-            fit: StackFit.expand,
-            alignment: Alignment.center,
+            fit: StackFit.loose,
+            alignment: Alignment.topCenter,
             children: <Widget>[
-
-              Positioned(
-                  top: 50,
-                  right: -150,
-                  child: headerCircleDesigner(250, Colors.pink)),
-              Positioned(
-                  top: -20,
-                  left: -65,
-                  child: headerCircleDesigner(width * .4, Colors.pinkAccent)),
               Positioned(
                   top: 50,
                   left: 10,
@@ -257,17 +253,4 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-//Design for Header
-  Widget headerCircleDesigner(double height, Color color,
-      {Color borderColor = Colors.transparent, double borderWidth = 2}) {
-    return Container(
-      height: height,
-      width: height,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color,
-        border: Border.all(color: borderColor, width: borderWidth),
-      ),
-    );
-  }
 }

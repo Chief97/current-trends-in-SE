@@ -70,6 +70,7 @@ flutter:
   assets:
     - Assets/Image.png
     - Assets/white.jpg
+    - Assets/bg1.JPG
 
 
   #  - images/a_dot_ham.jpeg

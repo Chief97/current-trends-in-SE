@@ -76,7 +76,6 @@ class NotificationPageState extends State<NotificationPage> {
                       color: Colors.orangeAccent,
                       iconSize: 60,
                       focusColor: Colors.redAccent,
-
                       // Popup will be called by using showMobilePopup()
                       onPressed: () {
                         showMobilePopup(
