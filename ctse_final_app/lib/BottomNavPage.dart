@@ -1,11 +1,10 @@
-import 'package:ctsefinalapp/homepage.dart';
-import 'package:ctsefinalapp/lecture.dart';
 import 'package:ctsefinalapp/theme/color/light_color.dart';
 import 'package:flutter/material.dart';
-import 'user.dart';
-import 'NotificationItemList.dart';
+import 'homepage.dart';
+import 'lecture.dart';
 import 'lab.dart';
-
+import 'NotificationItemList.dart';
+import 'user.dart';
 
 
 class BottomNavigationPage extends StatefulWidget {

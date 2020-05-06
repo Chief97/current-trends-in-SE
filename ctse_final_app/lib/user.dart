@@ -49,9 +49,9 @@ class UserPageState extends State<UserPage>{
     //This method implemented for upload profile picture
     Future uploadPic(BuildContext context) async{
       String fileName = basename(userProfilePic.path);
-      StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
-      StorageUploadTask uploadTask = firebaseStorageRef.putFile(userProfilePic);
-      StorageTaskSnapshot taskSnapshot=await uploadTask.onComplete;
+      StorageReference imageReference = FirebaseStorage.instance.ref().child(fileName);
+      StorageUploadTask profilePicUpload = imageReference.putFile(userProfilePic);
+      StorageTaskSnapshot sts=await profilePicUpload.onComplete;
       setState(() {
         print("User Profile Picture uploaded");
         Scaffold.of(context).showSnackBar(SnackBar(content: Text('User Profile Picture Uploaded')));

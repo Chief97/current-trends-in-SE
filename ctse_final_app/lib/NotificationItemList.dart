@@ -48,7 +48,7 @@ class NotificationPageState extends State<NotificationPage> {
 
     headerDesign(context);
     return StreamBuilder<QuerySnapshot>(
-      stream: NotificationFireBaseAPIServices.NotificationStream,
+      stream: NotificationFireBaseAPIServices.notificationStream,
       builder: (context, snapshot) {
         headerDesign(context);
         if (!snapshot.hasData) return LinearProgressIndicator();

@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 //create Notification Services
 class NotificationFireBaseAPIServices {
-  static Stream<QuerySnapshot> NotificationStream =
+  static Stream<QuerySnapshot> notificationStream =
   Firestore.instance.collection('notification').snapshots();
 
 
-  //Created Colection for notification
+  //Created Collection for notification
   static CollectionReference reference =
   Firestore.instance.collection('notification');
 
