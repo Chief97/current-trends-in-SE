@@ -1,6 +1,7 @@
 import 'package:ctsefinalapp/services/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ctsefinalapp/BottomNavPage.dart';
 
 import 'Animation/Fade_Animation.dart';
 
@@ -34,7 +35,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return FadeAnimation(1,Container(
       child: Scaffold(
         backgroundColor: Colors.black87,
         body: Container(
@@ -166,11 +167,11 @@ class _SignUpState extends State<SignUp> {
                         }
                         else{
                           showToast();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => BottomNavigationPage()),
+                          );
                         }
-//                        Navigator.push(
-//                        context,
-//                        MaterialPageRoute(builder: (context) => BottomNavPage()),
-//                      );
                       }
                       },
                     child: Text('SIGN UP',
@@ -203,7 +204,7 @@ class _SignUpState extends State<SignUp> {
           ),
         ),
       ),
-    );
+    ));
   }
 
   //Design for Header

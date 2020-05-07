@@ -70,6 +70,8 @@ flutter:
   assets:
     - Assets/Image.png
     - Assets/white.jpg
+    - Assets/white2.jpg
+    - Assets/bg1.JPG
     - Assets/bg11.jpg
     - Assets/bg12.png
     - Assets/bg13.jpg
