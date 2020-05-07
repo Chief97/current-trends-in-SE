@@ -46,11 +46,10 @@ class NotificationPageState extends State<NotificationPage> {
     String text = '';
     String error = '';
 
-    headerDesign(context);
+
     return StreamBuilder<QuerySnapshot>(
       stream: NotificationFireBaseAPIServices.notificationStream,
       builder: (context, snapshot) {
-        headerDesign(context);
         if (!snapshot.hasData) return LinearProgressIndicator();
         if (snapshot.data.documents.length > 0) {
           return SingleChildScrollView(
@@ -70,10 +69,9 @@ class NotificationPageState extends State<NotificationPage> {
                     ),
                     notificationList(context, snapshot.data.documents),
                     SizedBox(height: 10),
-
                     IconButton(
                       icon: Icon(Icons.add_circle),
-                      color: Colors.orangeAccent,
+                      color: Colors.teal,
                       iconSize: 60,
                       focusColor: Colors.redAccent,
                       // Popup will be called by using showMobilePopup()
@@ -94,6 +92,8 @@ class NotificationPageState extends State<NotificationPage> {
                                             style: TextStyle(
                                               color: Colors.black,
                                             ),
+
+                                            /*Validate Field Title*/
                                             validator: (value) => value.isEmpty ? 'Enter Title' : null,
                                             onChanged: (value){
                                               setState(() => title = value );
@@ -118,6 +118,8 @@ class NotificationPageState extends State<NotificationPage> {
                                             style: TextStyle(
                                               color: Colors.black,
                                             ),
+
+                                            /*Validate Field Message not empty*/
                                             validator: (value) => value.isEmpty ? 'Enter Message' : null,
                                             onChanged: (value){
                                               setState(() => text = value );
@@ -136,6 +138,7 @@ class NotificationPageState extends State<NotificationPage> {
                                         Padding(
                                           padding: EdgeInsets.all(30),
                                           child: MaterialButton(
+                                            /*Add Notification*/
                                             onPressed: () async {
                                               if(notificationKey.currentState.validate()) {
                                                 dynamic result = NotificationFireBaseAPIServices.addNotification(title, text);
@@ -282,6 +285,7 @@ class NotificationPageState extends State<NotificationPage> {
                                   padding: EdgeInsets.all(30),
                                   child: MaterialButton(
                                     onPressed: () async {
+                                      /*Upadate Notification*/
                                       if(notificationKey.currentState.validate()) {
                                         dynamic result = NotificationFireBaseAPIServices.updateNotification(data.documentID,title, text);
                                         if (result == null) {
@@ -362,6 +366,7 @@ class NotificationPageState extends State<NotificationPage> {
             FlatButton(
                 child: Text('Delete'),
                 onPressed: () {
+                  /*Delete Notification*/
                   NotificationFireBaseAPIServices.removeNotification(documentID);
                   Navigator.of(context).pop(true);
                 }),
@@ -382,7 +387,7 @@ class NotificationPageState extends State<NotificationPage> {
           height: 180,
           width: width,
           decoration: BoxDecoration(
-            color: LightColor.orange,
+            color: Colors.teal[400],
           ),
           child: Stack(
             fit: StackFit.expand,
@@ -391,11 +396,11 @@ class NotificationPageState extends State<NotificationPage> {
               Positioned(
                   top: 10,
                   right: -120,
-                  child: headerCircleDesigner(300, LightColor.lightOrange2)),
+                  child: headerCircleDesigner(300, Colors.teal[600])),
               Positioned(
                   top: -60,
                   left: -65,
-                  child: headerCircleDesigner(width * .5, LightColor.darkOrange)),
+                  child: headerCircleDesigner(width * .5, Colors.teal[600])),
               Positioned(
                   top: 50,
                   left: 0,

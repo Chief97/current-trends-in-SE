@@ -50,7 +50,7 @@ class BottomNavigationPageState extends State<BottomNavigationPage> {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              backgroundColor: LightColor.purple,
+              backgroundColor: Colors.cyan,
               title: Text('Home'),
             ),
             BottomNavigationBarItem(
@@ -65,7 +65,7 @@ class BottomNavigationPageState extends State<BottomNavigationPage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.message),
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.teal[400],
               title: Text('Notification'),
             ),
             BottomNavigationBarItem(

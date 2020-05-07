@@ -194,21 +194,21 @@ Widget headerDesign(BuildContext context) {
         height: 280,
         width: width,
         decoration: BoxDecoration(
-          color: Colors.pink,
+          color: Colors.pinkAccent,
         ),
         child: Stack(
           fit: StackFit.expand,
           alignment: Alignment.center,
           children: <Widget>[
             Positioned(
-                bottom: 10,
+                bottom: -20,
                 right: -60,
-                child: headerCircleDesign(150, Colors.pinkAccent,borderColor: Colors.white38)
+                child: headerCircleDesign(140, Colors.pinkAccent[100])
             ),
             Positioned(
                 top: -40,
                 left: -45,
-                child: headerCircleDesign(width * .5, Colors.pinkAccent,borderColor: Colors.white38)),
+                child: headerCircleDesign(width * .5, Colors.pinkAccent[100])),
             Positioned(
                 top: 50,
                 left: 0,
@@ -260,7 +260,7 @@ Widget headerDesign(BuildContext context) {
                             Text(
                               "User Profile",
                               style: TextStyle(
-                                  color: Colors.white54,
+                                  color: Colors.white,
                                   fontSize: 40,
                                   fontWeight: FontWeight.w500),
                                   textAlign: TextAlign.center,

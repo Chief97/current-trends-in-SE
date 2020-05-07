@@ -24,7 +24,7 @@ class homePage extends StatelessWidget {
           height: 200,
           width: width,
           decoration: BoxDecoration(
-            color: LightColor.purple,
+            color:Colors.cyan[600],
           ),
           child: Stack(
             fit: StackFit.expand,
@@ -33,12 +33,12 @@ class homePage extends StatelessWidget {
               Positioned(
                   top: 30,
                   right: -100,
-                  child: headerCircleDesign(300, LightColor.lightpurple)
+                  child: headerCircleDesign(300, Colors.cyan)
               ),
               Positioned(
                   top: -100,
                   left: -45,
-                  child: headerCircleDesign(width * .5, LightColor.darkpurple)),
+                  child: headerCircleDesign(width * .5,Colors.cyan)),
               Positioned(
                   top: 50,
                   left: 0,
@@ -82,9 +82,9 @@ class homePage extends StatelessWidget {
                               Text(
                                 "CTSE Home",
                                 style: TextStyle(
-                                    color: Colors.white54,
+                                    color: Colors.white,
                                     fontSize: 40,
-                                    fontWeight: FontWeight.w500),
+                                    fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
                               )
                             ],
@@ -127,7 +127,7 @@ class homePage extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-                color: LightColor.lightpurple,
+                color: Colors.blue[900],
                 fontSize: 20,
                 fontWeight: FontWeight.bold
             ),
@@ -149,9 +149,9 @@ class homePage extends StatelessWidget {
           children: <Widget>[
 
             card(
-                primarycolor: LightColor.lightOrange,
-                emailchipColor: LightColor.lightOrange,
-                backWidget: decorationOfLectureCard(Colors.greenAccent, 50, 20),
+                primarycolor: Colors.lightBlue[200],
+                emailchipColor:Colors.cyan,
+                backWidget: decorationOfLectureCard(Colors.white, 50, 20),
                 textOne: "Lecturer in charge ",
                 lecturerName: "Email id : dilani.l@sliit.lk",
                 emailId: " Dilani Lunugalage",
@@ -159,9 +159,9 @@ class homePage extends StatelessWidget {
                 imagePath:
                 "https://www.sliit.lk/profile/uploads/48087608_320634925441990_5844369803069882368_n.jpg"),
             card(
-                primarycolor: LightColor.lightOrange2,
-                emailchipColor: LightColor.lightOrange2,
-                backWidget: decorationOfLectureCard(Colors.yellow, 50, 00),
+                primarycolor: Colors.lightBlue[200],
+                emailchipColor: Colors.cyan,
+                backWidget: decorationOfLectureCard(Colors.cyan, 50, 00),
                 textOne: "Lab In Charge ",
                 lecturerName: "Email id : thilini.b@sliit.lk",
                 emailId: " Buddika Jayasinghe",
@@ -247,14 +247,14 @@ class homePage extends StatelessWidget {
   }
 
   /* Card Function : Each box in the page : Lecture,Lab, Course Contents,*/
-  Widget card({Color primarycolor = Colors.purple,
+  Widget card({Color primarycolor = Colors.blue,
     String imagePath,
     String textOne = '',
     String emailId = '',
     String lecturerName = '',
     String courseName = '',
     Widget backWidget,
-    Color emailchipColor = LightColor.orange,
+    Color emailchipColor = Colors.cyan,
     bool isPrimaryCard = false}) {
     return Container(
       /* Set Here Cards Alignment:height  */
@@ -317,7 +317,7 @@ class homePage extends StatelessWidget {
                   height: -60,
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
-                  color: isPrimaryCard ? Colors.yellow : textColor),
+                  color: isPrimaryCard ? Colors.blueAccent : textColor),
             ),
           ),
           Container(
@@ -330,7 +330,7 @@ class homePage extends StatelessWidget {
               style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: isPrimaryCard ? Colors.white : textColor),
+                  color: isPrimaryCard ? Colors.blue[900] : textColor),
             ),
           ),
           SizedBox(height: 10.0),
@@ -346,7 +346,7 @@ class homePage extends StatelessWidget {
               style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: isPrimaryCard ? Colors.white : textColor),
+                  color: isPrimaryCard ? Colors.blue[900] : textColor),
             ),
           ),
         ],
@@ -399,7 +399,7 @@ class homePage extends StatelessWidget {
           left: -55,
           child: CircleAvatar(
             radius: 100,
-            backgroundColor: LightColor.orange.withAlpha(100),
+            backgroundColor: Colors.blue[800].withAlpha(50),
           ),
         ),
       ],
@@ -428,8 +428,8 @@ class homePage extends StatelessWidget {
             child: FadeAnimation(1, Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage('Assets/white.jpg'),
-                      fit: BoxFit.fitHeight,
+                      image: AssetImage('Assets/white2.jpg'),
+                      fit: BoxFit.fill,
                       alignment: Alignment.center
                   )
               ),
@@ -438,12 +438,12 @@ class homePage extends StatelessWidget {
                   headerDesign(context),
                   SizedBox(height: 20),
                   Rows(
-                      "Lecturer Details", LightColor.orange, LightColor.orange),
+                      "Lecturer Details", Colors.white, Colors.blue[800]),
                   firstRow(),
                   //SizedBox(height: 0),
                   Rows(
-                      "Course Details : Semester Contents", LightColor.purple,
-                      LightColor.darkpurple),
+                      "Course Details : Semester Contents", Colors.cyan,
+                      Colors.cyan),
                   secondRow()
                 ],
               ),
