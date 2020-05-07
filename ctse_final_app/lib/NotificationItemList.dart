@@ -357,7 +357,7 @@ class NotificationPageState extends State<NotificationPage> {
       builder: (context) {
         return AlertDialog(
           title: Text('Delete'),
-          content: Text('Notification will be deleted'),
+          content: Text('Are you sure you want to delete this Notification?'),
           actions: <Widget>[
             FlatButton(
               child: Text('Cancel'),
