@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 //create Notification Services
+//ref:- https://flutterawesome.com/a-flutter-application-that-demonstrate-simple-crud-operations/
 class NotificationFireBaseAPIServices {
   static Stream<QuerySnapshot> notificationStream =
   Firestore.instance.collection('notification').snapshots();

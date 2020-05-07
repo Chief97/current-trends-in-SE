@@ -146,7 +146,7 @@ class NotificationPageState extends State<NotificationPage> {
                                                   setState(() => error ='Error');
                                                 }
                                                 else {
-                                                  // showToast();
+                                                  //showToast();
                                                 }
                                               }
                                             },
@@ -196,6 +196,7 @@ class NotificationPageState extends State<NotificationPage> {
   }
 
   //Design for Notification List
+  //ref:- https://flutterawesome.com/a-flutter-application-that-demonstrate-simple-crud-operations/
   Widget notificationList(BuildContext context, List<DocumentSnapshot> snapshot) {
     return ListView(
       physics: NeverScrollableScrollPhysics(),
@@ -207,6 +208,7 @@ class NotificationPageState extends State<NotificationPage> {
 
 
 //Design for Notification Item List
+  //ref:- https://flutterawesome.com/a-flutter-application-that-demonstrate-simple-crud-operations/
   Widget notificationItemList(BuildContext context, DocumentSnapshot data) {
 
     final notifications = notificationModel.fromSnapshot(data);
@@ -350,6 +352,7 @@ class NotificationPageState extends State<NotificationPage> {
   }
 
   //This function is Dialog for confirmation before Delete the Content
+  //ref:- https://flutterawesome.com/a-flutter-application-that-demonstrate-simple-crud-operations/
   Future<bool> confirmationDialog(
       BuildContext context, String documentID) {
       return showDialog<bool>(
