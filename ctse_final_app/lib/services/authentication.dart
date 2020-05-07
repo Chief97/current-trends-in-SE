@@ -6,6 +6,7 @@ import 'firebase_service.dart';
 
 class AuthenticationService {
 
+  //firebase auth object
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //create user obj based on firebaseuser
@@ -18,29 +19,18 @@ class AuthenticationService {
     return (await _auth.currentUser()).uid;
   }
 
-//  // GET CURRENT USER
-//  Future getCurrentUser() async {
-//    return await _auth.currentUser();
-//  }
-
-
      getCurrentUser() async {
     final FirebaseUser user = await _auth.currentUser();
     String uid = user.uid;
     // Similarly we can get email as well
     final uemail = user.email;
     return uid;
-    print(uid);
-    print(uemail);
   }
-
-
 
   //auth change user stream
   Stream<User> get user{
     return _auth.onAuthStateChanged
         .map(_userFirebaseUser);
-        //.map((FirebaseUser user) => _userFirebaseUser(user));
   }
 
   //sign in with email & password
@@ -78,7 +68,4 @@ class AuthenticationService {
       return null;
     }
   }
-
-
-
 }

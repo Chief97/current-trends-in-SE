@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'SignIn.dart';
 import 'models/userModel.dart';
 
-
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

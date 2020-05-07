@@ -21,7 +21,7 @@ class lab extends StatefulWidget {
 class _LabState extends State<lab> {
   double width;
   final AuthenticationService _auth = AuthenticationService();
-
+//form validation ket initialization
   final _key = GlobalKey<FormState>();
 
 //  String fileName = '';
@@ -55,7 +55,7 @@ class _LabState extends State<lab> {
         textColor: Colors.white
     );
   }
-
+//accessing local file directory
   Future openFileExplorer() async {
 //  if(_pickingType != FileType.custom || _hasValidMime){
 //    setState(() =>_loadingPath = true);
@@ -67,7 +67,7 @@ class _LabState extends State<lab> {
       print(e.toString());
     }
   }
-
+//initializing firebase lab collection instance
   @override
   void initState() {
     FirestoreService().getLabsData().then((results) {
@@ -77,7 +77,7 @@ class _LabState extends State<lab> {
     });
     super.initState();
   }
-
+//header UI design
   Widget HeaderDesign(BuildContext context) {
     var width = MediaQuery
         .of(context)
@@ -129,7 +129,7 @@ class _LabState extends State<lab> {
           )),
     );
   }
-
+//header UI design
   Widget headerCircleDesigner(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
@@ -173,11 +173,9 @@ class _LabState extends State<lab> {
       ),
     );
   }
-
-
-
-
+  //displaying data from collection
   Widget DisplayLabs(BuildContext context) {
+    //Using StreamBuilder to listen to changes in data collection
     return StreamBuilder(
       stream: _labs,
       builder: (context, snapshot) {
@@ -197,6 +195,7 @@ class _LabState extends State<lab> {
                   decoration: BoxDecoration(
 
                   ),
+                  //using ListView to display data
                   child: ListView.separated(
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
@@ -356,7 +355,7 @@ class _LabState extends State<lab> {
                                                       ),
                                                       validator: (value) =>
                                                       value.isEmpty
-                                                          ? 'Enter Lecture Name'
+                                                          ? 'Enter Lab Name'
                                                           : null,
                                                       onChanged: (value) {
                                                         setState(() =>
@@ -369,7 +368,7 @@ class _LabState extends State<lab> {
                                                                       .redAccent
                                                               )
                                                           ),
-                                                          labelText: 'Lecture Title :',
+                                                          labelText: 'Lab Title :',
                                                           labelStyle: TextStyle(
                                                               fontSize: 20,
                                                               color: Colors
@@ -387,7 +386,7 @@ class _LabState extends State<lab> {
                                                       ),
                                                       validator: (value) =>
                                                       value.isEmpty
-                                                          ? 'Enter lecturer name'
+                                                          ? 'Enter instructor name'
                                                           : null,
                                                       onChanged: (value) {
                                                         setState(() =>
@@ -400,7 +399,7 @@ class _LabState extends State<lab> {
                                                                       .redAccent
                                                               )
                                                           ),
-                                                          labelText: 'Lecturer Name :',
+                                                          labelText: 'Instructor Name :',
                                                           labelStyle: TextStyle(
                                                               fontSize: 20,
                                                               color: Colors

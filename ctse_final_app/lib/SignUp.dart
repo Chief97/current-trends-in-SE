@@ -12,7 +12,9 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
+  //firebase auth service object
   final AuthenticationService _auth = AuthenticationService();
+  //form validation key intialization
   final _key = GlobalKey<FormState>();
 
   String fullName = '';
