@@ -45,7 +45,7 @@ class FirestoreService {
   Stream<QuerySnapshot> get getUserData {
     return _usersCollectionReference.snapshots();
   }
-
+//Uploading a data to the collection and file to the storage
   Future uploadFile(LectureModel lecture,String type, File tempFile) async {
     _dateTimeNow = DateTime.now().toString();
     if(type == _type) {
@@ -76,6 +76,7 @@ class FirestoreService {
 //      return downloadFile(type, _document.documentID);
 //    }
   }
+  //Download files from storage
   Future<String> downloadFile(String type,dynamic ref) async {
     if(type == _type) {
 //      DocumentSnapshot value = await _lecturesCollectionReference.document(ref)
@@ -89,11 +90,11 @@ class FirestoreService {
       return _downloadURL;
     }
   }
-
+//get data from lecture collection
   getLecturesData() async {
     return await _lecturesCollectionReference.snapshots();
   }
-
+//get data from lab collection
   getLabsData() async {
     return await _labCollectionReference.snapshots();
   }

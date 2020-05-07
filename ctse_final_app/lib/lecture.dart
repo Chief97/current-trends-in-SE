@@ -24,7 +24,8 @@ double width;
 
   final _key = GlobalKey<FormState>();
 
-//  String fileName = '';
+  bool _loading = false;
+  String _fileName = '';
   String lectureTitle = '';
   String week;
   String lecturerName = '';
@@ -55,17 +56,18 @@ void showToast() {
   );
 }
 
+//accessing the local directory
 Future openFileExplorer() async {
-//  if(_pickingType != FileType.custom || _hasValidMime){
-//    setState(() =>_loadingPath = true);
+  setState(() =>_loading = true);
   ext.add('pdf');
     try{
       tempFile = await FilePicker.getFile(type: FileType.custom, allowedExtensions: ext);
-    }catch(e){
+    }on PlatformException catch(e){
       print(e.toString());
     }
 }
 
+//initializing the firebase lecture reference
 @override
 void initState(){
   FirestoreService().getLecturesData().then((results){
@@ -169,8 +171,9 @@ void initState(){
     );
   }
 
-
+  //Displaying lectures collection data
   Widget DisplayLectures(BuildContext context){
+    //Using StreamBuilder to listen to changes in data collection
     return StreamBuilder(
       stream: _lectures,
       builder: (context, snapshot){
@@ -186,10 +189,7 @@ void initState(){
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
-
-                decoration: BoxDecoration(
-
-                ),
+                //using ListView to display data
                 child: ListView.separated(
                     itemBuilder: (BuildContext context, int index)
                     {
@@ -318,7 +318,6 @@ void initState(){
                                               ),
                                             ),
                                           ),
-
                                           Padding(
                                             padding: EdgeInsets.all(20.0),
                                             child: TextFormField(
@@ -388,6 +387,7 @@ void initState(){
                                               ),
                                             ),
                                           ),
+
                                           Padding(
                                             padding: EdgeInsets.all(30),
                                             child: MaterialButton(
