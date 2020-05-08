@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class UserProfile{
+class UserProfile {
 //  final String userId;
   final String email;
   final String fullName;
