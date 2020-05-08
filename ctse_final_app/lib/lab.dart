@@ -4,6 +4,7 @@ import 'package:ctsefinalapp/Color/light_color.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'Animation/Fade_Animation.dart';
@@ -23,6 +24,7 @@ class _LabState extends State<lab> {
   final AuthenticationService _auth = AuthenticationService();
 //form validation ket initialization
   final _key = GlobalKey<FormState>();
+  final _key1 = GlobalKey<FormState>();
 
 //  String fileName = '';
   String _title = '';
@@ -173,6 +175,193 @@ class _LabState extends State<lab> {
       ),
     );
   }
+
+
+  showPopup(String id,LectureModel lecture) {
+    return showMobilePopup(
+        context: context,
+        builder: (context) => MobilePopUp(
+          title: 'Update Lecture ',
+          child: Builder(
+            builder: (navigator) => Scaffold(
+              body: SingleChildScrollView(
+                child: Form(
+                  key: _key1,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: TextFormField(
+                          initialValue: lecture.week.toString(),
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                          validator: (value) => value.isEmpty ? 'Enter Week' : null,
+                          onChanged: (value){
+                            setState(() => _week = value );
+                          },
+                          decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.redAccent
+                                  )
+                              ),
+                              labelText: 'Week :',
+                              labelStyle: TextStyle(fontSize: 20,
+                                  color: Colors.black)
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: TextFormField(
+                          initialValue: lecture.title,
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                          validator: (value) => value.isEmpty ? 'Enter Title' : null,
+                          onChanged: (value){
+                            setState(() => _title = value );
+                          },
+                          decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.redAccent
+                                  )
+                              ),
+                              labelText: 'Title :',
+                              labelStyle: TextStyle(fontSize: 20,
+                                  color: Colors.black)
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: TextFormField(
+                          initialValue: lecture.lecturerName,
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                          validator: (value) => value.isEmpty ? 'Enter lecturer name' : null,
+                          onChanged: (value){
+                            setState(() => _lecturerName = value );
+                          },
+                          decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.redAccent
+                                  )
+                              ),
+                              labelText: 'Lecturer Name :',
+                              labelStyle: TextStyle(fontSize: 20,
+                                  color: Colors.black)
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: MaterialButton(
+                          onPressed: () {
+                            if(_key1.currentState.validate()) {
+                              openFileExplorer();
+                            }
+                          },//since this is only a UI app
+                          child: Text('Select File',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'SFUIDisplay',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          color: Color(0xff9e9e9e),
+                          minWidth: 100,
+                          height: 30,
+                          textColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0.0)
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.all(30),
+                        child: MaterialButton(
+                          onPressed: () async {
+                            if(_key1.currentState.validate()) {
+                              LectureModel newLecture = LectureModel(
+                                  week: int.parse(_week),
+                                  title: _title,
+                                  lecturerName: _lecturerName);
+                              print('calling method');
+                              dynamic result = await FirestoreService.updateDetails(newLecture,id, _type, _tempFile);
+                              print('method returned');
+                              if (result == null) {
+                                setState(() => error ='Unable to update');
+                              }
+                              else {
+                                print('toast called');
+                                showToast();
+                              }
+                            }
+                          },
+                          child: Text('Update Lecture ',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'SFUIDisplay',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white
+                            ),
+                          ),
+                          color: Color(0xffff2d55),
+                          elevation: 0,
+                          minWidth: 350,
+                          height: 60,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        )
+    );
+  }
+
+  Future<bool> confirmationDialog(
+      BuildContext context, String id) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Delete'),
+          content: Text('Are you sure you want to delete this Notification?'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            FlatButton(
+                child: Text('Delete'),
+                onPressed: () {
+                  /*Delete Notification*/
+                  print('method to be called');
+                  print(id);
+                  FirestoreService.deleteData(id,_type);
+                  Navigator.of(context).pop(true);
+                }),
+          ],
+        );
+      },
+    );
+  }
+
   //displaying data from collection
   Widget DisplayLabs(BuildContext context) {
     //Using StreamBuilder to listen to changes in data collection
@@ -198,50 +387,67 @@ class _LabState extends State<lab> {
                   //using ListView to display data
                   child: ListView.separated(
                     itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                          title: RichText(
-                              text: new TextSpan(
-                                  children: [
-                                    new TextSpan(
-                                      text: 'Week ' +
-                                          snapshot.data.documents[index]['week']
-                                              .toString(),
-                                      style: new TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 25),
-                                    ),
-                                  ]
-                              )
+                      LectureModel lecture = LectureModel(
+                          week: snapshot.data.documents[index]['week'],
+                          title: snapshot.data.documents[index]['title'],
+                          lecturerName: snapshot.data.documents[index]['lecturerName']
+                      );
+                      return Slidable(
+                        actionPane: SlidableDrawerActionPane(),
+                        secondaryActions: <Widget>[
+                          IconSlideAction(
+                              caption:'Update',
+                              color: Colors.blue,
+                              icon:Icons.update,
+                              onTap: () { showPopup(
+                                  snapshot.data.documents[index]['id'], lecture);}
                           ),
-                          subtitle: RichText(
-                              text: new TextSpan(
-                                  children: [
-                                    new WidgetSpan(
-                                        child: Icon(
-                                          Icons.picture_as_pdf,
-                                          size: 25,
-                                          color: Colors.red,
-                                        )
-                                    ),
-                                    new TextSpan(
-                                        text: '  ' + snapshot.data
-                                            .documents[index]['title'],
+                          IconSlideAction(
+                            caption:'Delete',
+                            color: Colors.red,
+                            icon:Icons.delete,
+                            onTap: () => confirmationDialog(context, snapshot.data.documents[index]['id']),
+                          ),
+                        ],
+                        child: ListTile(
+                            title: RichText(
+                                text: new TextSpan(
+                                    children: [
+                                      new TextSpan(
+                                        text: 'Week '+snapshot.data.documents[index]['week'].toString(),
                                         style: new TextStyle(
-                                          color: Colors.lightBlue,
-                                          fontSize: 19,
-                                        ),
-                                        recognizer: new TapGestureRecognizer()
-                                          ..onTap = () async {
-                                            _download = await FirestoreService()
-                                                .downloadFile(_type,
-                                                snapshot.data
-                                                    .documents[index]['id']);
-                                            launch(_download);
-                                          }
-                                    ),
-                                  ]
-                              )
-                          )
+                                            color: Colors.black,
+                                            fontSize: 25),
+                                      ),
+                                    ]
+                                )
+                            ),
+                            subtitle: RichText(
+                                text: new TextSpan(
+                                    children: [
+                                      new WidgetSpan(
+                                          child: Icon(
+                                            Icons.picture_as_pdf,
+                                            size: 25,
+                                            color: Colors.red,
+                                          )
+                                      ),
+                                      new TextSpan(
+                                          text: '  '+ snapshot.data.documents[index]['title'],
+                                          style: new TextStyle(
+                                            color: Colors.lightBlue,
+                                            fontSize: 19,
+                                          ),
+                                          recognizer: new TapGestureRecognizer()
+                                            ..onTap = () async {
+                                              _download = await FirestoreService().downloadFile(_type, snapshot.data.documents[index]['id']);
+                                              launch(_download);
+                                            }
+                                      ),
+                                    ]
+                                )
+                            )
+                        ),
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {
