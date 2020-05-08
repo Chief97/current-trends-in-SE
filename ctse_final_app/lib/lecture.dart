@@ -175,6 +175,7 @@ void initState(){
   }
 
 
+  //mobile popup to update data
   showPopup(String id,LectureModel lecture) {
     return showMobilePopup(
         context: context,
@@ -332,6 +333,7 @@ void initState(){
     );
   }
 
+  //confirmation dialog to delete data
   Future<bool> confirmationDialog(
       BuildContext context, String id) {
     return showDialog<bool>(

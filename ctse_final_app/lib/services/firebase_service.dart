@@ -111,6 +111,7 @@ class FirestoreService {
     return await _labCollectionReference.snapshots();
   }
 
+  //update data
   static updateDetails(LectureModel lecture, String id, String type, File tempFile) async {
     print('method called');
     // ignore: missing_return
@@ -140,6 +141,7 @@ class FirestoreService {
     });
   }
 
+  //delete data
   static deleteData(String id, String type) async {
     Firestore.instance.runTransaction((Transaction transaction) async {
       print('method called');
